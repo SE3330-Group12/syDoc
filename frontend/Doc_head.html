@@ -71,7 +71,6 @@
         }
     </script>
 
-
 </head>
 
 <body>
@@ -121,7 +120,7 @@
     <div>
 
         <div id="nav">
-            <br>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <button class="button2">创建新项目</button>&nbsp; &nbsp;
             &nbsp; &nbsp
             <br><br>
@@ -131,178 +130,236 @@
 
             <button class="button3">已删除项目»</button>&nbsp; &nbsp;
 
-            <button class="button3">＋新建目录</button>&nbsp; &nbsp;
-            <br>
+            <div>
+                <!-- Trigger/Open The Modal -->
+                <button id="myBtn" class="button3">＋新建目录</button>
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>创建新目录<span class="close">&times;</span></h2>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <textarea></textarea>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <br><br><br><br><br>
+                            <button class="button1">确认</button>
+                            <button class="button1">取消</button>
+                            <br><br><br><br><br>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
-        <div id="main">
-            <input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for names.."
-                title="Type in a name">
-            <button id="btn_leftmost" style="display:none"><i class="innericon"
-                    style="content:url(./img/folder_white.png)"></i></button>
-            <button id="btn" style="display:none"><i class="innericon"
-                    style="content:url(./img/download_white.png)"></i></button>
+        <script>
+        // Get the modal
+            var modal = document.getElementById("myModal");
 
-            <table id="myTable">
-                <tr class="header">
-                    <th style="width:53%;"><input type="checkbox" class="myCheck" onclick="callmenu()">标题</th>
-                    <th style="width:10%;">创建者</th>
-                    <th style="width:23%;">最后修改时间</th>
-                    <th style="width:14%;text-align: center;">操作</th>
-                </tr>
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
 
-                <tr>
-                    <td>
-                        <input type="checkbox" class="myCheck" onclick="callmenu()">
-                        <a href=#>小组大作业</a>
-                    </td>
-                    <td>lrc</td>
-                    <td>
-                        <div class="tooltip">12 hours ago by You
-                            <span class="tooltiptext">12th Mar 2022,10:43am</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tooltip">
-                            <input type="image" src="./img/download.png" />
-                            <span class="tooltiptext">下载</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/history.png" />
-                            <span class="tooltiptext">历史</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/export.png" />
-                            <span class="tooltiptext">分享</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/delete.png" />
-                            <span class="tooltiptext">删除</span>
-                        </div>
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
 
-                    </td>
-                </tr>
+            // When the user clicks the button, open the modal 
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
 
-                <tr>
-                    <td>
-                        <input type="checkbox" class="myCheck" onclick="callmenu()">
-                        <a href=#>LSM project</a>
-                    </td>
-                    <td>syt</td>
-                    <td class="tooltip">4 days ago by syt
-                        <span class="tooltiptext">9th Mar 2022,10:43pm</span>
-                    </td>
-                    <td>
-                        <div class="tooltip">
-                            <input type="image" src="./img/download.png" />
-                            <span class="tooltiptext">下载</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/history.png" />
-                            <span class="tooltiptext">历史</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/export.png" />
-                            <span class="tooltiptext">分享</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/delete.png" />
-                            <span class="tooltiptext">删除</span>
-                        </div>
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" class="myCheck" onclick="callmenu()">
-                        <a href=#>12组Vision文档</a>
-                    </td>
-                    <td>nzy</td>
-                    <td class="tooltip">2 days ago by syt
-                        <span class="tooltiptext">11th Mar 2022,11:43pm</span>
-                    </td>
-                    <td>
-                        <div class="tooltip">
-                            <input type="image" src="./img/download.png" />
-                            <span class="tooltiptext">下载</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/history.png" />
-                            <span class="tooltiptext">历史</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/export.png" />
-                            <span class="tooltiptext">分享</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/delete.png" />
-                            <span class="tooltiptext">删除</span>
-                        </div>
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" class="myCheck" onclick="callmenu()">
-                        <a href=#>12软件需求规约</a>
-                    </td>
-                    <td>nzy</td>
-                    <td class="tooltip">2 days ago by lyx
-                        <span class="tooltiptext">11th Mar 2022,11:43pm</span>
-                    </td>
-                    <td>
-                        <div class="tooltip">
-                            <input type="image" src="./img/download.png" />
-                            <span class="tooltiptext">下载</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/history.png" />
-                            <span class="tooltiptext">历史</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/export.png" />
-                            <span class="tooltiptext">分享</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/delete.png" />
-                            <span class="tooltiptext">删除</span>
-                        </div>
+    </div>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" class="myCheck" onclick="callmenu()">
-                        <a href=#>界面迭代评审</a>
-                    </td>
-                    <td>xwc</td>
-                    <td class="tooltip">12hours ago by syt
-                        <span class="tooltiptext">12th Mar 2022,11:43am</span>
-                    </td>
-                    <td>
-                        <div class="tooltip">
-                            <input type="image" src="./img/download.png" />
-                            <span class="tooltiptext">下载</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/history.png" />
-                            <span class="tooltiptext">历史</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/export.png" />
-                            <span class="tooltiptext">分享</span>
-                        </div>
-                        <div class="tooltip caozuo">
-                            <input type="image" src="./img/delete.png" />
-                            <span class="tooltiptext">删除</span>
-                        </div>
 
-                    </td>
-                </tr>
 
-            </table>
 
-        </div>
+
+    <div id="main">
+        <input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for names.."
+            title="Type in a name">
+        <button id="btn_leftmost" style="display:none"><i class="innericon"
+                style="content:url(./img/folder_white.png)"></i></button>
+        <button id="btn" style="display:none"><i class="innericon"
+                style="content:url(./img/download_white.png)"></i></button>
+
+        <table id="myTable">
+            <tr class="header">
+                <th style="width:53%;"><input type="checkbox" class="myCheck" onclick="callmenu()">标题</th>
+                <th style="width:10%;">创建者</th>
+                <th style="width:23%;">最后修改时间</th>
+                <th style="width:14%;text-align: center;">操作</th>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="checkbox" class="myCheck" onclick="callmenu()">
+                    <a href=#>小组大作业</a>
+                </td>
+                <td>lrc</td>
+                <td>
+                    <div class="tooltip">12 hours ago by You
+                        <span class="tooltiptext">12th Mar 2022,10:43am</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="tooltip">
+                        <input type="image" src="./img/download.png" />
+                        <span class="tooltiptext">下载</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/history.png" />
+                        <span class="tooltiptext">历史</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/export.png" />
+                        <span class="tooltiptext">分享</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/delete.png" />
+                        <span class="tooltiptext">删除</span>
+                    </div>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="checkbox" class="myCheck" onclick="callmenu()">
+                    <a href=#>LSM project</a>
+                </td>
+                <td>syt</td>
+                <td class="tooltip">4 days ago by syt
+                    <span class="tooltiptext">9th Mar 2022,10:43pm</span>
+                </td>
+                <td>
+                    <div class="tooltip">
+                        <input type="image" src="./img/download.png" />
+                        <span class="tooltiptext">下载</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/history.png" />
+                        <span class="tooltiptext">历史</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/export.png" />
+                        <span class="tooltiptext">分享</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/delete.png" />
+                        <span class="tooltiptext">删除</span>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" class="myCheck" onclick="callmenu()">
+                    <a href=#>12组Vision文档</a>
+                </td>
+                <td>nzy</td>
+                <td class="tooltip">2 days ago by syt
+                    <span class="tooltiptext">11th Mar 2022,11:43pm</span>
+                </td>
+                <td>
+                    <div class="tooltip">
+                        <input type="image" src="./img/download.png" />
+                        <span class="tooltiptext">下载</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/history.png" />
+                        <span class="tooltiptext">历史</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/export.png" />
+                        <span class="tooltiptext">分享</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/delete.png" />
+                        <span class="tooltiptext">删除</span>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" class="myCheck" onclick="callmenu()">
+                    <a href=#>12软件需求规约</a>
+                </td>
+                <td>nzy</td>
+                <td class="tooltip">2 days ago by lyx
+                    <span class="tooltiptext">11th Mar 2022,11:43pm</span>
+                </td>
+                <td>
+                    <div class="tooltip">
+                        <input type="image" src="./img/download.png" />
+                        <span class="tooltiptext">下载</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/history.png" />
+                        <span class="tooltiptext">历史</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/export.png" />
+                        <span class="tooltiptext">分享</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/delete.png" />
+                        <span class="tooltiptext">删除</span>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" class="myCheck" onclick="callmenu()">
+                    <a href=#>界面迭代评审</a>
+                </td>
+                <td>xwc</td>
+                <td class="tooltip">12hours ago by syt
+                    <span class="tooltiptext">12th Mar 2022,11:43am</span>
+                </td>
+                <td>
+                    <div class="tooltip">
+                        <input type="image" src="./img/download.png" />
+                        <span class="tooltiptext">下载</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/history.png" />
+                        <span class="tooltiptext">历史</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/export.png" />
+                        <span class="tooltiptext">分享</span>
+                    </div>
+                    <div class="tooltip caozuo">
+                        <input type="image" src="./img/delete.png" />
+                        <span class="tooltiptext">删除</span>
+                    </div>
+
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
     </div>
 
 
