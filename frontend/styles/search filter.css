@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-* {
-    box-sizing: border-box;
-}
+
 
 #myInput {
     background-image: url(searchicon.png);
@@ -9,7 +6,8 @@
     background-repeat: no-repeat;
     background-size: 20px;
     width: 60%;
-    font-size: 16px;
+    height:3vh;
+    font-size: 20px;
     padding: 12px 20px 12px 40px;
     border: 1px solid #ddd;
     margin-bottom: 12px;
@@ -82,88 +80,3 @@
     text-rendering: auto;
 }
 
-=======
-* {
-    box-sizing: border-box;
-}
-
-#myInput {
-    background-image: url(searchicon.png);
-    background-position: 10px 10px;
-    background-repeat: no-repeat;
-    background-size: 20px;
-    width: 60%;
-    font-size: 16px;
-    padding: 12px 20px 12px 40px;
-    border: 1px solid #ddd;
-    margin-bottom: 12px;
-    float: left;
-}
-
-#myTable {
-    border-collapse: collapse;
-    width: 100%;
-    border: 1px solid #ddd;
-    font-size: 18px;
-}
-
-#myTable th,
-#myTable td {
-    text-align: left;
-    padding: 12px;
-}
-
-#myTable tr {
-    border-bottom: 1px solid #ddd;
-}
-
-#myTable tr.header,
-#myTable tr:hover {
-    background-color: #f1f1f1;
-}
-
-#btn {
-
-    background-color: rgb(102, 101, 101);
-    border: none;
-    color: black;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    margin: 4px 8px;
-    cursor: pointer;
-    border-radius: 16px;
-    float: right;
-}
-
-/* Darker background on mouse-over */
-#btn:hover {
-    background-color: rgb(63, 63, 63);
-}
-
-#btn_leftmost{
-    background-color: rgb(102, 101, 101);
-    border: none;
-    color: black;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    margin: 4px 8px;
-    cursor: pointer;
-    border-radius: 16px;
-    float: right;
-    margin-right: 20px;
-}
-#btn_leftmost:hover {
-    background-color: rgb(63, 63, 63);
-}
-
-#innericon {
-    height: 1.2vw;
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-}
-
->>>>>>> ad831bb096b8559b8f96e427009929d87fec1207

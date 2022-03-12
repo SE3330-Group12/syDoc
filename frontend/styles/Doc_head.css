@@ -49,6 +49,13 @@
     padding: 1vh;
 }
 
+#main{
+    float:left;
+    margin-top:3vh;
+    margin-left: 1vw;
+    width:80vw;
+}
+
 .button2 {
     margin: auto;
     width: 16vw;

@@ -19,73 +19,300 @@
     </style>
 
 
-</head>
-
-<div id="header">
-
-    <button class="button1">帮助 »</button>
-    <button class="button1">项目 »</button>
-    <span class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">账户 »</button>
-        <span id="myDropdown" class="dropdown-content">
-            <a href="#home">E-mail.com</a>
-            <a href="#about">账号设置</a>
-            <a href="#contact">退出</a>
-        </span>
-    </span>
-
-    <span class="logo">
-        <img src="./img/logo.png" />
-    </span>
-    
+    <link rel="stylesheet" href="./styles/search filter.css" />
+    <link rel="stylesheet" href="./styles/tooltip.css" />
     <script>
-        /* When the user clicks on the button, 
-        toggle between hiding and showing the dropdown content */
-        function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
-
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
+        function searchFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
                     }
                 }
             }
         }
+        function callmenu() {
+            var checkBox = document.getElementsByClassName("myCheck");
+            var buttona = document.getElementById("btn");
+            var buttonb = document.getElementById("btn_leftmost");
+            var is_selected = 0;
+            if (checkBox[0].checked == true) {
+                buttona.style.display = "block";
+                buttonb.style.display = "block";
+                for (var i = 1; i < checkBox.length; i++) {
+                    checkBox[i].checked = true
+                    is_selected = 1;
+                }
+            }
+            else {
+                for (var i = 1; i < checkBox.length; i++) {
+                    if (checkBox[i].checked == true) {
+                        buttona.style.display = "block";
+                        buttonb.style.display = "block";
+                        is_selected = 1;
+
+                    }
+                }
+                if (is_selected == 0) {
+                    buttona.style.display = "none";
+                    buttonb.style.display = "none";
+                }
+            }
+
+        }
     </script>
 
-</div>
+
+</head>
+
+<body>
+
+    <div id="header">
+
+        <button class="button1">帮助 »</button>
+        <button class="button1">项目 »</button>
+        <span class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">账户 »</button>
+            <span id="myDropdown" class="dropdown-content">
+                <a href="#home">E-mail.com</a>
+                <a href="#about">账号设置</a>
+                <a href="#contact">退出</a>
+            </span>
+        </span>
+
+        <span class="logo">
+            <img src="./img/logo.png" />
+        </span>
+
+        <script>
+            /* When the user clicks on the button, 
+            toggle between hiding and showing the dropdown content */
+            function myFunction() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function (event) {
+                if (!event.target.matches('.dropbtn')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            }
+        </script>
+
+    </div>
 
 
+    <div>
+
+        <div id="nav">
+            <br>
+            <button class="button2">创建新项目</button>&nbsp; &nbsp;
+            &nbsp; &nbsp
+            <br><br>
+            <button class="button3">所有项目»</button>&nbsp; &nbsp;
+
+            <button class="button3">与您共享的»</button>&nbsp; &nbsp;
+
+            <button class="button3">已删除项目»</button>&nbsp; &nbsp;
+
+            <button class="button3">＋新建目录</button>&nbsp; &nbsp;
+            <br>
+        </div>
+
+        <div id="main">
+            <input type="text" id="myInput" onkeyup="searchFunction()" placeholder="Search for names.."
+                title="Type in a name">
+            <button id="btn_leftmost" style="display:none"><i class="innericon"
+                    style="content:url(./img/folder_white.png)"></i></button>
+            <button id="btn" style="display:none"><i class="innericon"
+                    style="content:url(./img/download_white.png)"></i></button>
+
+            <table id="myTable">
+                <tr class="header">
+                    <th style="width:53%;"><input type="checkbox" class="myCheck" onclick="callmenu()">标题</th>
+                    <th style="width:10%;">创建者</th>
+                    <th style="width:23%;">最后修改时间</th>
+                    <th style="width:14%;text-align: center;">操作</th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="checkbox" class="myCheck" onclick="callmenu()">
+                        <a href=#>小组大作业</a>
+                    </td>
+                    <td>lrc</td>
+                    <td>
+                        <div class="tooltip">12 hours ago by You
+                            <span class="tooltiptext">12th Mar 2022,10:43am</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="tooltip">
+                            <input type="image" src="./img/download.png" />
+                            <span class="tooltiptext">下载</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/history.png" />
+                            <span class="tooltiptext">历史</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/export.png" />
+                            <span class="tooltiptext">分享</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/delete.png" />
+                            <span class="tooltiptext">删除</span>
+                        </div>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="checkbox" class="myCheck" onclick="callmenu()">
+                        <a href=#>LSM project</a>
+                    </td>
+                    <td>syt</td>
+                    <td class="tooltip">4 days ago by syt
+                        <span class="tooltiptext">9th Mar 2022,10:43pm</span>
+                    </td>
+                    <td>
+                        <div class="tooltip">
+                            <input type="image" src="./img/download.png" />
+                            <span class="tooltiptext">下载</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/history.png" />
+                            <span class="tooltiptext">历史</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/export.png" />
+                            <span class="tooltiptext">分享</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/delete.png" />
+                            <span class="tooltiptext">删除</span>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="myCheck" onclick="callmenu()">
+                        <a href=#>12组Vision文档</a>
+                    </td>
+                    <td>nzy</td>
+                    <td class="tooltip">2 days ago by syt
+                        <span class="tooltiptext">11th Mar 2022,11:43pm</span>
+                    </td>
+                    <td>
+                        <div class="tooltip">
+                            <input type="image" src="./img/download.png" />
+                            <span class="tooltiptext">下载</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/history.png" />
+                            <span class="tooltiptext">历史</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/export.png" />
+                            <span class="tooltiptext">分享</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/delete.png" />
+                            <span class="tooltiptext">删除</span>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="myCheck" onclick="callmenu()">
+                        <a href=#>12软件需求规约</a>
+                    </td>
+                    <td>nzy</td>
+                    <td class="tooltip">2 days ago by lyx
+                        <span class="tooltiptext">11th Mar 2022,11:43pm</span>
+                    </td>
+                    <td>
+                        <div class="tooltip">
+                            <input type="image" src="./img/download.png" />
+                            <span class="tooltiptext">下载</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/history.png" />
+                            <span class="tooltiptext">历史</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/export.png" />
+                            <span class="tooltiptext">分享</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/delete.png" />
+                            <span class="tooltiptext">删除</span>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="myCheck" onclick="callmenu()">
+                        <a href=#>界面迭代评审</a>
+                    </td>
+                    <td>xwc</td>
+                    <td class="tooltip">12hours ago by syt
+                        <span class="tooltiptext">12th Mar 2022,11:43am</span>
+                    </td>
+                    <td>
+                        <div class="tooltip">
+                            <input type="image" src="./img/download.png" />
+                            <span class="tooltiptext">下载</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/history.png" />
+                            <span class="tooltiptext">历史</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/export.png" />
+                            <span class="tooltiptext">分享</span>
+                        </div>
+                        <div class="tooltip caozuo">
+                            <input type="image" src="./img/delete.png" />
+                            <span class="tooltiptext">删除</span>
+                        </div>
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </div>
+    </div>
 
 
-<div id="nav">
-    <br>
-    <button class="button2">创建新项目</button>&nbsp; &nbsp;
-    &nbsp; &nbsp
-    <br><br>
-    <button class="button3">所有项目»</button>&nbsp; &nbsp;
-
-    <button class="button3">与您共享的»</button>&nbsp; &nbsp;
-
-    <button class="button3">已删除项目»</button>&nbsp; &nbsp;
-
-    <button class="button3">＋新建目录</button>&nbsp; &nbsp;
-    <br>
-</div>
+    <div id="footer">
+        <p id="middle_p">
+            © 2022 Powered by SyDoc | 简体中文 | Privacy and Terms | 安全性 | 联系我们 | 关于博客
+        </p>
+    </div>
 
 
-<div id="footer">
-    <p id="middle_p">
-        © 2022 Powered by SyDoc | 简体中文 | Privacy and Terms | 安全性 | 联系我们 | 关于博客
-    </p>
-</div>
 
 </body>
 
