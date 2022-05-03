@@ -43,7 +43,7 @@ export default {
 
     function handleMessage(e) {
       let quill = toRaw(myQuillEditor.value).getQuill();
-      var delta = JSON.parse(e._delta);
+      var delta = JSON.parse(e.data);
       quill.updateContents(delta);
     }
 
