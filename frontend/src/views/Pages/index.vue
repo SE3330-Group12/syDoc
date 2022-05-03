@@ -11,6 +11,7 @@
       @focus="onEditorFocus($event)"
       @textChange="onEditorChange($event)"
       @ready="onEditorReady($event)"
+      style="min-height:200px"
     />
     <div id="count">当前字数：{{ count }}</div>
   </div>
