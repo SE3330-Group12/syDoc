@@ -1,6 +1,6 @@
 const useWebsockt = (docId, handleMessage) => {
     const BASE_URL = 'localhost';
-    const WS_PORT = '8080';
+    const WS_PORT = '8081';
     const DOC_ID = docId;
     const WS_ADDRESS = `ws://${BASE_URL}:${WS_PORT}/?name=${DOC_ID}`;
     console.log("address", WS_ADDRESS)

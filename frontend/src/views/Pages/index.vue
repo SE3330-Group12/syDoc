@@ -37,14 +37,20 @@ export default {
     const state = reactive({
       text: "",
       count: 0,
+      delta:0,
     });
 
     const ws = useWebSocket(docId,handleMessage);
 
     function handleMessage(e) {
       let quill = toRaw(myQuillEditor.value).getQuill();
-      var obj = JSON.parse(e.data);
-      quill.updateContents(obj._delta);
+      let deltas=e.data.split('\n');
+      deltas.forEach(element => {
+        console.log(element);
+        let obj=JSON.parse(element);
+        state.delta++;
+        quill.updateContents(obj._delta.ops);
+      });
     }
 
     const onEditorChange = (e) => {
@@ -70,11 +76,14 @@ export default {
         state.count = char.length;
 
         //将docId和delta传递给后端
-        ws.send(
-          JSON.stringify({
-            _delta: delta,
-          })
-        );
+        if(state.delta==0){
+            ws.send(
+            JSON.stringify({
+              _delta: delta,
+            })
+          );
+        }
+        else{state.delta--;}
       });
     };
 

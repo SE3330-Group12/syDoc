@@ -51,7 +51,7 @@ public class MyWebsocketServer extends org.java_websocket.server.WebSocketServer
     @Override
     public void onMessage(WebSocket conn, String message) {
         String docid=connMap.get(conn);
-        System.out.println(docid+"send: "+message);
+        System.out.println(docid+" send: "+message);
         connMap.forEach((socket,n) -> {
             if(conn == socket||!n.equals(docid)) return;
             socket.send(message);

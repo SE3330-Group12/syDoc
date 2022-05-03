@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 public class WebsocketConfiguration {
-    int port = 8080;
+    int port = 8081;
 
     @Bean
     public MyWebsocketServer getWebSocketServer() throws Exception {
