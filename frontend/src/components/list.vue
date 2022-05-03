@@ -202,18 +202,7 @@ export default {
       downloadDialogVisible: false,
       shareDialogVisible: false,
       showData: [
-        {
-          id:1,
-          name: "12组在线文档编辑",
-          author: "You",
-          time: "just now",
-        },
-        {
-          id:2,
-          name: "救救我 救救我 救救我",
-          author: "You",
-          time: "just now",
-        },
+        
       ],
       options: [
         {
@@ -249,31 +238,51 @@ export default {
       // ]
     };
   },
-  mounted() {
+  created() {
     // this.$route.params.projects.forEach(item=>{
     //   this.showData.push({name:item.name,author: "You",time: "just now"});
     // })
 
-    this.user.id=this.$route.params.accountid;
-    this.user.name=this.$route.params.usename;
-    instance.get('/',{
-      params:{
-        id:this.user.id,
+    this.user.id = this.$route.query.accountid;
+    this.user.name = this.$route.query.usename;
+    console.log(this.user);
+    instance.get('/getDocList', {
+      params: {
+        userId: this.user.id,
       }
-    }).then(res=>{
-      res.data.projects.forEach(item=>{
-        this.showData.push({id:item.id,name:item.name,author:"You",time:"just now"});
+    }).then(res => {
+      res.data.forEach(item => {
+        this.showData.push({id: item.id, name: item.name, author: "You", time: "just now"});
       })
-    }).catch(err=>{
+    }).catch(err => {
       console.log(err);
     })
-    // this.projects.forEach(item=>{
-    //       this.showData.push({id:item.id,name:item.name,author:"You",time:"just now"});
-    //     })
-  },
+      // this.projects.forEach(item=>{
+      //       this.showData.push({id:item.id,name:item.name,author:"You",time:"just now"});
+      //     })
+      // //   vmson.$on("addDocument",(val)=>{
+      // //   console.log(val);
+      // // })
+    },
+  // },
   methods:{
     getHref(val){
       return '/Pages?docid='+val;
+    },
+    fresh(){
+      // console.log(this.showData);
+      this.showData=[];
+      instance.get('/getDocList', {
+        params: {
+          userId: this.user.id,
+        }
+      }).then(res => {
+        res.data.forEach(item => {
+          this.showData.push({id: item.id, name: item.name, author: "You", time: "just now"});
+        })
+      }).catch(err => {
+        console.log(err);
+      })
     }
   }
 };

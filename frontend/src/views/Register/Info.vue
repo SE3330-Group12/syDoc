@@ -45,7 +45,7 @@ export default {
           name:usename
         }
       }).then(res=>{
-        this.useshow=res.data.cn;
+        this.useshow=!res.data;
       }).catch(err=>{
         console.log(err);
       })
@@ -56,14 +56,14 @@ export default {
       this.passshow=!(newpass==oldpass);
     },
     register(){
-      let usn=document.getElementById('name').value;
-      let em=document.getElementById('email').value;
-      let opass=document.getElementById('password').value;
-      let npass=document.getElementById('SecPass').value;
+      var usn=document.getElementById('name').value;
+      var em=document.getElementById('email').value;
+      var opass=document.getElementById('password').value;
+      var npass=document.getElementById('SecPass').value;
       if(opass==npass){
-        instance.post('/addAccount',{
+        instance.post('/addAccount',null,{
           params:{
-            usename:usn,
+            name:usn,
             email:em,
             password:opass,
           }

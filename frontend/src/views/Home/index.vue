@@ -2,9 +2,9 @@
   <div>
     <Header />
     <el-container class="main">
-      <Sidebar></Sidebar>
+      <Sidebar @save="save"></Sidebar>
         <el-main class="content">
-      <List />
+      <List ref="listContainer"/>
         </el-main>
     </el-container>
 
@@ -26,6 +26,18 @@ export default {
     Footer,
     List,
   },
+  // created() {
+  //   console.log(this.$route.params);
+  // }
+  methods: {
+
+    save(){
+
+      this.$refs.listContainer.fresh();
+
+    }
+
+  }
 };
 </script>
 
