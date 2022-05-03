@@ -58,10 +58,11 @@ export default {
             password: password,
           }
         }).then(res => {
-          if (res.data == null) this.passwrong = true;
+          if (res.data == "") this.passwrong = true;
           else {
             this.$router.push({
-              name: 'home', params: {
+              path:'/home',
+              query: {
                 accountid: res.data.accountId,
                 usename: res.data.name,
                 // projects:res.data.projects
@@ -72,12 +73,11 @@ export default {
           console.log(err);
         })
         //     this.$router.push({
-        //       name: 'home', params: {
-        //         // accountid: res.data.accountId,
-        //         // usename: res.data.name,
-        //         // projects:res.data.projects,
+        //       //name: 'home',
+        //       path:'/',
+        //       query: {
         //         accountid:1,
-        //         usename:usname,
+        //         usename:"papa",
         //       }
         //     })
       }
