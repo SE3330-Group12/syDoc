@@ -90,33 +90,45 @@ export default {
           docName:this.documentname,
         }
       }).then(res=>{
-        if(res.data!="") {
-          this.documentok = true;
-          this.documentid = res.data.documentId;
+        // console.log(res);
+        if(res.data!='') {
+          instance.post('/invite',null,{
+            params:{
+              userId:this.userid,
+              docId:res.data.documentId,
+            }
+          }).then(res=>{
+            // console.log(res);
+            this.centerDialogVisible=false;
+            this.$emit("save");
+          }).catch(err=>{
+            console.log(err);
+          })
         }
       }).catch(err=>{
         console.log(err);
       });
       // console.log(this.documentok);
-      if(this.documentok){
-        instance.post('/invite',null,{
-          params:{
-            userId:this.userid,
-            docId:this.documentid,
-          }
-        }).then(res=>{
-          this.userok=(res.data!="");
-        }).catch(err=>{
-          console.log(err);
-        })
-      };
+      // if(this.documentok){
+      //   instance.post('/invite',null,{
+      //     params:{
+      //       userId:this.userid,
+      //       docId:this.documentid,
+      //     }
+      //   }).then(res=>{
+      //     console.log(res);
+      //     this.userok=(res.data!="");
+      //   }).catch(err=>{
+      //     console.log(err);
+      //   })
+      // };
       // this.documentok = true;
       // this.documentid = 5;
       // this.userok=true;
-      if(this.documentok&&this.userok){
-        this.centerDialogVisible=false;
-        this.$emit("save");
-      }
+      // if(this.documentok&&this.userok){
+      //   this.centerDialogVisible=false;
+      //   this.$emit("save");
+      // }
     }
   }
 };
