@@ -19,14 +19,14 @@
 <!--        <router-link :to="{ name: 'home' }"-->
 <!--          ><button id="btn">登 &nbsp;&nbsp; 录</button>-->
 <!--        </router-link>-->
-        <button id="btn" @click="login()">登 &nbsp;&nbsp; 录</button>
+        <button id="btn" @click="login()" style="margin: 0 auto">登 &nbsp;&nbsp; 录</button>
         <router-link :to="{ name: 'Register' }"
-          ><a>No account? Click here to Register</a></router-link
+          ><a style="margin: 0 auto">No account? Click here to Register</a></router-link
         >
         <br />
-        <div v-show="usshow"><p type="text" style="color: white">用户名不能为空</p></div>
-        <div v-show="passshow"><p type="text" style="color: white">密码不能为空</p></div>
-        <div v-show="passwrong"><p type="text" style="color: white">用户名或密码错误！</p></div>
+<!--        <div v-show="usshow"><p type="text" style="color: white">用户名不能为空</p></div>-->
+<!--        <div v-show="passshow"><p type="text" style="color: white">密码不能为空</p></div>-->
+<!--        <div v-show="passwrong"><p type="text" style="color: white">用户名或密码错误！</p></div>-->
       </div>  
     </div>
     <!-- <router-view></router-view> -->
@@ -39,9 +39,9 @@ import {instance} from "@/axios/axios";
 export default {
   data(){
     return {
-      usshow: false,
-      passshow: false,
-      passwrong:false,
+      // usshow: false,
+      // passshow: false,
+      // passwrong:false,
       input:"",
     }
   },
@@ -49,8 +49,14 @@ export default {
     login() {
       let usname = document.getElementById('name').value;
       let password = document.getElementById('password').value;
-      this.usshow = (usname == "");
-      this.passshow = (password == "");
+      // this.usshow = (usname == "");
+      // this.passshow = (password == "");
+      if(usname=="") this.checkusernull();
+      if(password=="") {
+        setTimeout(()=>{
+          this.checkpasswordnull();
+        },1);
+      }
       if (usname != "" || password != "") {
         instance.get('/checkAccount', {
           params: {
@@ -58,7 +64,15 @@ export default {
             password: password,
           }
         }).then(res => {
-          if (res.data == "") this.passwrong = true;
+          if (res.data == "") {
+            setTimeout(()=>{
+              this.$message({
+                showClose: true,
+                message: '用户名或密码错误',
+                type: 'error'
+              });
+            },1);
+          }
           else {
             this.$router.push({
               path:'/home',
@@ -84,11 +98,23 @@ export default {
     },
     checkusernull(){
       let usname = document.getElementById('name').value;
-      this.usshow = (usname == "");
+      if(usname==""){
+        this.$message({
+          showClose: true,
+          message: '用户名不能为空',
+          type: 'error'
+        });
+      }
     },
     checkpasswordnull(){
       let password = document.getElementById('password').value;
-      this.passshow = (password == "");
+      if(password==""){
+        this.$message({
+          showClose: true,
+          message: '密码不能为空',
+          type: 'error'
+        });
+      }
     }
   }
   // setup () {

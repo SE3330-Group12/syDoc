@@ -76,7 +76,7 @@
             <el-button
               type="primary"
               color="#3F3F3F"
-              @click="shareDialogVisible = true"
+              @click="shareDialogVisible = true;this.showdid=scope.row.id;share()"
               ><img src="../img/分享.png" alt=""
             /></el-button>
           </el-tooltip>
@@ -127,22 +127,30 @@
       :before-close="handleClose"
     >
       <el-divider />
-      <router-link to="">这里放分享链接</router-link>
+      <router-link to="">{{this.code}}</router-link>
       <el-divider />
+      <div v-for="user in shareUser">
+              <el-row>
+                <el-col :span="8">{{user.username}}</el-col>
+                <el-col :span="8">{{user.userpower}}</el-col>
+              </el-row>
+        <el-divider border-style="dashed" />
+      </div>
+<!--      <el-row>-->
+<!--        <el-col :span="8">User1</el-col>-->
+<!--        <el-col :span="8">edit&read</el-col>-->
+<!--      </el-row>-->
+<!--      <el-divider border-style="dashed" />-->
+<!--      <el-row>-->
+<!--        <el-col :span="8">User2</el-col>-->
+<!--        <el-col :span="8">edit&read</el-col>-->
+<!--      </el-row>-->
+<!--      <el-divider />-->
+      <template #footer>
       <el-row>
-        <el-col :span="8">User1</el-col>
-        <el-col :span="8">edit&read</el-col>
-      </el-row>
-      <el-divider border-style="dashed" />
-      <el-row>
-        <el-col :span="8">User2</el-col>
-        <el-col :span="8">edit&read</el-col>
-      </el-row>
-      <el-divider />
-      <el-row>
-        <el-col :span="16"></el-col>
-        <el-col :span="8">
-          <el-select v-model="value" class="m-2" placeholder="选择分享对象">
+        <el-col :span="5"></el-col>
+        <el-col :span="5">
+          <el-select v-model="value" class="m-2" placeholder="选择分享权限">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -151,15 +159,14 @@
             />
           </el-select>
         </el-col>
-      </el-row>
-      <template #footer>
+        <el-col :span="5"></el-col>
         <span class="dialog-footer">
-          <el-button @click="shareDialogVisible = false">可以编辑</el-button>
-          <el-button type="primary" @click="shareDialogVisible = false"
-            >分享</el-button
-          >
+<!--          <el-button @click="shareDialogVisible = false">可以编辑</el-button>-->
+          <el-button type="primary" @click="getInvatationCode()">生成邀请码</el-button>
         </span>
+      </el-row>
       </template>
+      <br />
     </el-dialog>
 
     <!-- 历史记录抽屉 -->
@@ -197,45 +204,38 @@ export default {
       },
       input: "",
       shareInput: "",
-      value: "",
+      value: null,
       drawer: false,
       downloadDialogVisible: false,
       shareDialogVisible: false,
+      showdid:0,
       showData: [
-        
+        // {
+        //   id: 1, name: "item.name", author: "You", time: "just now"
+        // }
       ],
       options: [
         {
-          value: "Option1",
-          label: "Option1",
+          value: 1,
+          label: "Edit",
         },
         {
-          value: "Option2",
-          label: "Option2",
-        },
-        {
-          value: "Option3",
-          label: "Option3",
-        },
-        {
-          value: "Option4",
-          label: "Option4",
-        },
-        {
-          value: "Option5",
-          label: "Option5",
+          value: 2,
+          label: "Read",
         },
       ],
-      // projects:[
-      //   {
-      //     id:3,
-      //     name:"233333",
-      //   },
-      //   {
-      //     id:4,
-      //     name:"help!!!",
-      //   }
-      // ]
+      shareUser:[
+        // {
+        //   username:"User1",
+        //   userpower:"Edit",
+        // },
+        // {
+        //   username: "User2",
+        //   userpower: "Read",
+        // },
+      ],
+      sourceString:"431EYZDOWGVJ5AQMSFCU2TBIRPN796XH0KL",
+      code:""
     };
   },
   created() {
@@ -283,7 +283,37 @@ export default {
       }).catch(err => {
         console.log(err);
       })
-    }
+    },
+    share(){
+      instance.get('/url',{
+        params:{
+          documentId:this.showdid
+        }
+      }).then(res=>{
+        res.data.forEach(item =>{
+          this.shareUser.push({username:item.name, userpower: item.power});
+        })
+      }).catch(err =>{
+        console.log(err);
+      })
+    },
+    getInvatationCode(){
+      this.code="";
+      let num=this.showdid*10+this.value;
+      console.log(num);
+      // let pow=this.value;
+      while (num>0) {
+        let mod = num % 35;
+        // console.log(mod);
+        num = (num - mod) / 35;
+        // console.log(num);
+        this.code = this.sourceString.substring(mod,mod+1) + this.code;
+        // console.log(this.code);
+      };
+      // console.log(this.code);
+      this.code = '88888888' + this.code;//长度不足8，前面补全
+      this.code = this.code.slice(this.code.length - 8,this.code.length);//截取最后8位字符串
+    },
   }
 };
 

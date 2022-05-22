@@ -16,9 +16,17 @@
       <el-form-item>
         <el-input type="text" v-model="documentname" placeholder="文档名" />
       </el-form-item>
-      <el-form-item>
-          <el-input type="text" v-model="userid" placeholder="请输入邀请的用户id" />
-      </el-form-item>
+<!--      <el-form-item>-->
+<!--          <el-input type="text" v-model="userid" placeholder="请输入邀请的用户id" />-->
+<!--      </el-form-item>-->
+      <el-select v-model="value" placeholder="请选择项目类型" style="margin: 0 auto">
+        <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+        </el-option>
+      </el-select>
     </div>
     <template #footer>
       <span class="dialog-footer">
@@ -26,6 +34,25 @@
 <!--        <el-button  @click="centerDialogVisible = false"-->
 <!--        >Confirm</el-button-->
 <!--        >-->
+      </span>
+    </template>
+  </el-dialog>
+
+  <el-dialog
+      v-model="addToDoc"
+      title="加入项目"
+      width="30%"
+      destroy-on-close
+      center
+  >
+    <div>
+      <el-form-item>
+        <el-input type="text" v-model="code" placeholder="请输入邀请码" />
+      </el-form-item>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" @click="add()">加入</el-button>
       </span>
     </template>
   </el-dialog>
@@ -49,12 +76,15 @@
 <!--            <el-menu-item index="1-2"><el-button round size="small">表格</el-button></el-menu-item>-->
         </el-sub-menu>
         <el-menu-item index="2">
-          <span>所有项目</span>
+        <el-button size="large" class="bigbutton" @click="addToDoc= true">加入项目</el-button>
         </el-menu-item>
         <el-menu-item index="3">
-          <span>共享项目</span>
+          <span>所有项目</span>
         </el-menu-item>
         <el-menu-item index="4">
+          <span>共享项目</span>
+        </el-menu-item>
+        <el-menu-item index="5">
           <span>已删除项目</span>
         </el-menu-item>
       </el-menu>
@@ -74,61 +104,119 @@ export default {
       documentname:"",
       userid:"",
       centerDialogVisible:false,
-      documentok:false,
-      userok:false,
+      addToDoc:false,
+      code:"",
+      sourceString:'431EYZDOWGVJ5AQMSFCU2TBIRPN796XH0KL',
+      docuid:0,
+      power:0,
+      // documentok:false,
+      // userok:false,
       msg:{
         docid:this.documentid,
         docname:this.documentname,
-      }
+      },
+      options: [{
+        value: 'text',
+        label: '文档'
+      }, {
+        value: 'excel',
+        label: '表格'
+      },
+      ],
+      value:''
     }
   },
   methods:{
     createdocument(){
+      if(this.documentname==""){
+        this.$message({
+          showClose: true,
+          message: '文档名不能为空',
+          type: 'error'
+        });
+      };
+      if(this.value==""){
+        setTimeout(()=>{
+          this.$message({
+            showClose: true,
+            message: '项目类型不能为空',
+            type: 'error'
+          });
+        },1);
+      };
+       if(this.documentname!=""&&this.value!=""){
+      //       setTimeout(()=>{
+      //         this.$message({
+      //           message: '项目创建成功',
+      //           type: 'success'
+      //         });
+      //       },1);
+      //       this.centerDialogVisible = false;
       instance.post('/addDocument',null,{
         params:{
           userId:this.$route.query.accountid,
           docName:this.documentname,
+          type:this.value,
         }
       }).then(res=>{
         // console.log(res);
         if(res.data!='') {
-          instance.post('/invite',null,{
-            params:{
-              userId:this.userid,
-              docId:res.data.documentId,
-            }
-          }).then(res=>{
-            // console.log(res);
-            this.centerDialogVisible=false;
-            this.$emit("save");
-          }).catch(err=>{
-            console.log(err);
-          })
+          setTimeout(()=>{
+            this.$message({
+              message: '项目创建成功',
+              type: 'success'
+            });
+          },1);
+          this.centerDialogVisible = false;
+          this.$emit("save");
+        }
+        }).catch(err=>{
+        console.log(err);
+      });
+      }
+    },
+    add(){
+      //解码
+      // let ecode=this.code;
+      this.code = this.code.replace(/8/g,"");//去掉8
+      this.docuid = 0;
+      for (let i = 0; i < this.code.length; i++) {
+        let str = this.code.substring(i,i+1);//获取一个字符
+        let num = this.sourceString.indexOf(str);//余数
+        this.docuid += num * Math.pow(35,(this.code.length - 1 - i));
+      }
+      this.power =this.docuid%10;
+      this.docuid= (this.docuid-this.power)/10;
+      console.log(this.docuid);
+      console.log(this.power);
+      //add request
+      // setTimeout(()=>{
+      //         this.$message({
+      //           message: '加入项目成功',
+      //           type: 'success'
+      //         });
+      //       },1);
+      //       this.addToDoc = false;
+      instance.post('/invite',null,{
+        params:{
+          userId:this.$route.query.accountid,
+          docId:this.docuid,
+          userPower:this.power,
+        }
+      }).then(res=>{
+        if(res.data!=""){
+          setTimeout(()=>{
+            this.$message({
+              message: '加入项目成功',
+              type: 'success'
+            });
+          },1);
+          this.addToDoc = false;
+          this.$emit("save");
         }
       }).catch(err=>{
         console.log(err);
-      });
-      // console.log(this.documentok);
-      // if(this.documentok){
-      //   instance.post('/invite',null,{
-      //     params:{
-      //       userId:this.userid,
-      //       docId:this.documentid,
-      //     }
-      //   }).then(res=>{
-      //     console.log(res);
-      //     this.userok=(res.data!="");
-      //   }).catch(err=>{
-      //     console.log(err);
-      //   })
-      // };
-      // this.documentok = true;
-      // this.documentid = 5;
-      // this.userok=true;
-      // if(this.documentok&&this.userok){
-      //   this.centerDialogVisible=false;
-      //   this.$emit("save");
-      // }
+      })
     }
   }
 };
