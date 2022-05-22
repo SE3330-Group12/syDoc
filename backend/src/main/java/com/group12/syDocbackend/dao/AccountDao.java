@@ -10,10 +10,10 @@ import java.util.Map;
 public interface AccountDao {
     void addAccount(String name,String password,String email);
     void modifyAccount(int id,String newPWD);
-    Account invite(int userId, int documentId);
+    Account invite(int userId, int documentId,int userPower);
     boolean checkAccNameDup(String name);
     Account checkAccount(String name,String password);
-    Document addDocument(int userId,String docName);
+    Document addDocument(int userId,String docName,int type);
     boolean modifyDocName(int docId,String newname);
     List<Map> getDocList(int userId);
     boolean deleteDocument(int docId);

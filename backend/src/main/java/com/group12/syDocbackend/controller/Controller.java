@@ -41,31 +41,30 @@ public class Controller {
     }
 
     @RequestMapping("/getDocList")
-    public List<Map> getDocList(@RequestParam("userId")String userId){
+    public List<Map> getDocList(@RequestParam("userId")int userId){
         System.out.println("getDocList!");
-        int id=Integer.valueOf(userId);
-        return accountService.getDocList(id);
+        return accountService.getDocList(userId);
     }
 
     @RequestMapping("/invite")
-    public Account invite(@RequestParam("userId")String userId, @RequestParam("docId")String docId){
+    public Account invite(@RequestParam("userId")int userId, @RequestParam("docId")int docId,@RequestParam("userPower")int userPower){
         System.out.println("invited!");
-        int id=Integer.valueOf(userId);
-        int did = Integer.valueOf(docId);
-        return accountService.invite(id,did);
+        return accountService.invite(userId,docId,userPower);
     }
 
     @RequestMapping("/addDocument")
-    public Document addDocument( @RequestParam("userId")String userId,@RequestParam("docName")String docName){
+    public Document addDocument( @RequestParam("userId")int userId,@RequestParam("docName")String docName,@RequestParam("type")String doctype){
         System.out.println("addDocument!");
-        int id=Integer.valueOf(userId);
-        return documentService.addDocument(id,docName);
+        int type;
+        if(doctype.equals("text"))type = 0;
+        else type = 1;
+        return documentService.addDocument(userId,docName,type);
     }
 
     @RequestMapping("/deleteDocument")
-    public boolean deleteDocument(@RequestParam("docId")String docId){
+    public boolean deleteDocument(@RequestParam("docId")int docId){
         System.out.println("deleteDoc!");
-        int id=Integer.valueOf(docId);
+        documentService.deleteDocument(docId);
         return true;
     }
 

@@ -12,9 +12,9 @@ public class DocumentServiceImpl implements DocumentService {
     AccountDao accountDao;
 
     @Override
-    public Document addDocument(int userId,String docName){
+    public Document addDocument(int userId,String docName,int type){
 
-        return accountDao.addDocument(userId,docName);
+        return accountDao.addDocument(userId,docName,type);
     }
 
     @Override

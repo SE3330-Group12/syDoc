@@ -4,6 +4,6 @@ import com.group12.syDocbackend.entity.Document;
 
 
 public interface DocumentService {
-    Document addDocument(int userId,String docName);
+    Document addDocument(int userId,String docName,int type);
     boolean deleteDocument(int docId);
 }

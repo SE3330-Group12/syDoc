@@ -12,7 +12,7 @@ import java.util.Map;
 public interface AccountService {
     Account checkAccount(String username,String password);
     boolean addAccount(String username, String password,String email);
-    Account invite(int userId,int docId);
+    Account invite(int userId,int docId,int userPower);
     boolean checkDup(String username);
     List<Map> getDocList(int userId);
 }

@@ -35,9 +35,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account invite(int userId,int docId)
+    public Account invite(int userId,int docId,int userPower)
     {
-        return accountDao.invite(userId,docId);
+        return accountDao.invite(userId,docId,userPower);
     }
 
     @Override
