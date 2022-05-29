@@ -2,12 +2,13 @@
   <!-- 搜索项目栏 -->
   <div class="search_bar">
     <el-input
-      @input="searchnow"
-      type="text"
-      v-model="input"
-      placeholder="请输入要查找的项目名称"
+        @input="recoverdata"
+        @keyup.enter="searchnow"
+        type="text"
+        v-model="input"
+        placeholder="请输入要查找的项目名称"
     />
-    <el-button type="primary">搜索</el-button>
+    <el-button type="primary" @click="searchnow">搜索</el-button>
     <!-- <el-button type="primary" @click="addBooks">添加</el-button> -->
   </div>
 
@@ -77,7 +78,7 @@
             <el-button
               type="primary"
               color="#3F3F3F"
-              @click="shareDialogVisible = true;this.showdid=scope.row.id;share()"
+              @click="shareDialogVisible = true;this.showdid=scope.row.id;this.dauthor=scope.row.author;share()"
               ><img src="../img/分享.png" alt=""
             /></el-button>
           </el-tooltip>
@@ -90,7 +91,7 @@
             title="您确定要删除这个文档吗"
             confirm-button-text="确定"
             cancel-button-text="取消"
-            @confirm="delete(scope.row)"
+            @confirm="deleteDoc(scope.row)"
           >
             <template #reference>
               <el-button type="primary" color="#3F3F3F"
@@ -132,21 +133,42 @@
       <el-divider />
       <div v-for="user in shareUser">
               <el-row>
-                <el-col :span="8">{{user.username}}</el-col>
-                <el-col :span="8">{{user.userpower}}</el-col>
+                <el-col :span="7">{{user.username}}</el-col>
+                <el-col :span="7">{{user.userpower}}</el-col>
+
+<!--                <el-tooltip content="修改成员权限" placement="top">-->
+<!--                  <el-button-->
+<!--                      type="primary"-->
+<!--                      color="#3F3F3F"-->
+<!--                      @click=""-->
+<!--                  ><img src="../img/创作.png" alt=""-->
+<!--                  /></el-button>-->
+<!--                </el-tooltip>-->
+                <el-popconfirm
+                    title="您确定要修改此成员的权限?"
+                    confirm-button-text="确定"
+                    cancel-button-text="取消"
+                    @confirm="changePower(user.userId)"
+                >
+                  <template #reference>
+                    <el-button type="primary" color="#3F3F3F" :disabled="this.dauthor!=this.user.name"
+                    ><img src="../img/创作.png" alt=""
+                    /></el-button>
+                  </template>
+                </el-popconfirm>
+                <el-col :span="1"></el-col>
+                  <el-tooltip content="删除成员" placement="top">
+                    <el-button
+                        type="primary"
+                        color="#3F3F3F"
+                        @click="deleteUser(user.userId)"
+                        :disabled="this.dauthor!=this.user.name"
+                    ><img src="../img/删除.png" alt=""
+                    /></el-button>
+                  </el-tooltip>
               </el-row>
         <el-divider border-style="dashed" />
       </div>
-<!--      <el-row>-->
-<!--        <el-col :span="8">User1</el-col>-->
-<!--        <el-col :span="8">edit&read</el-col>-->
-<!--      </el-row>-->
-<!--      <el-divider border-style="dashed" />-->
-<!--      <el-row>-->
-<!--        <el-col :span="8">User2</el-col>-->
-<!--        <el-col :span="8">edit&read</el-col>-->
-<!--      </el-row>-->
-<!--      <el-divider />-->
       <template #footer>
       <el-row>
         <el-col :span="5"></el-col>
@@ -170,23 +192,6 @@
       <br />
     </el-dialog>
 
-    <!-- 历史记录抽屉 -->
-<!--    <el-drawer v-model="drawer" title="编辑历史" :before-close="handleClose">-->
-<!--      &lt;!&ndash; 插了个描述列表在这里，具体怎么与后端通信写数据暂未实现 &ndash;&gt;-->
-<!--      <el-card shadow="hover">-->
-<!--        <el-descriptions title="User Info" column="1">-->
-<!--          <el-descriptions-item label="Username"-->
-<!--            >kooriookami</el-descriptions-item-->
-<!--          >-->
-<!--          <el-descriptions-item label="Telephone"-->
-<!--            >18100000000</el-descriptions-item-->
-<!--          >-->
-<!--          <el-descriptions-item label="Place">Suzhou</el-descriptions-item>-->
-<!--        </el-descriptions>-->
-<!--      </el-card>-->
-<!--      <el-card shadow="hover"> Hover </el-card>-->
-<!--      <el-card shadow="hover"> Hover </el-card>-->
-<!--    </el-drawer>-->
   </div>
 </template>
 
@@ -210,6 +215,7 @@ export default {
       downloadDialogVisible: false,
       shareDialogVisible: false,
       showdid:0,
+      dauthor:"",
       DocData: [
         // {
         //   id: 1, name: "item.name", author: "You",type:"文档", time: "just now"
@@ -219,8 +225,8 @@ export default {
         // }
       ],
       ShowData:[
-
       ],
+      tmp:[],
       options: [
         {
           value: 1,
@@ -233,10 +239,12 @@ export default {
       ],
       shareUser:[
         // {
+        //   userId:1,
         //   username:"User1",
         //   userpower:"Edit",
         // },
         // {
+        //   userId: 2,
         //   username: "User2",
         //   userpower: "Read",
         // },
@@ -301,7 +309,7 @@ export default {
         }
       }).then(res=>{
         res.data.forEach(item =>{
-          this.shareUser.push({username:item.name, userpower: item.power});
+          this.shareUser.push({userId:item.userId,username:item.name, userpower: item.power});
         })
       }).catch(err =>{
         console.log(err);
@@ -343,7 +351,7 @@ export default {
         }
       })
     },
-    delete(Doc){
+    deleteDoc(Doc){
       instance.post('/deleteDocument',null,{
         params:{
           docId:Doc.id
@@ -355,7 +363,56 @@ export default {
       }).catch(err =>{
         console.log(err);
       })
-    }
+    },
+    changePower(uid){
+      // console.log(uid);
+      instance.post('/changePower',null,{
+        params:{
+          userName:uid,
+          documentId:this.showdid
+        }
+      }).then(res =>{
+        if(res.data){
+          this.$options.methods.share.bind(this)();
+        }else{
+          this.$message.error("修改成员权限失败")
+        }
+      }).catch(err =>{
+        console.log(err);
+      })
+    },
+    deleteUser(uid){
+      instance.post('/deleteUser',null,{
+        params:{
+          userId:uid,
+          documentId:this.showdid
+        }
+      }).then(res =>{
+        if(res.data){
+          this.$options.methods.share.bind(this)();
+        }else{
+          this.$message.error("删除成员失败")
+        }
+      }).catch(err =>{
+        console.log(err);
+      })
+    },
+    //   搜索实现
+    searchnow() {
+      let searchitem = [];
+      this.tmp=this.ShowData;
+      var temp = String(this.input).toUpperCase();
+      this.ShowData.forEach(function (item) {
+        if (String(item.name).toUpperCase().indexOf(temp) > -1) {
+          searchitem.push(item);
+        }
+      });
+      this.ShowData = JSON.parse(JSON.stringify(searchitem));
+    },
+    recoverdata(){
+      if(this.input=="")
+        this.ShowData =  this.tmp;
+    },
   }
 };
 
