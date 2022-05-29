@@ -46,9 +46,11 @@ public class DocumentServiceImpl implements DocumentService {
     public class Result{
         String name;
         String power;
+        int userId;
 
-        public Result(String name,int power){
+        public Result(String name,int power,int id){
             this.name = name;
+            this.userId = id;
             if(power==0) this.power="Creator";
             else if(power ==1) this.power = "Editor";
             else this.power = "Reader";
@@ -70,6 +72,14 @@ public class DocumentServiceImpl implements DocumentService {
         public void setName(String name) {
             this.name = name;
         }
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
     }
 
     @Override
@@ -79,7 +89,7 @@ public class DocumentServiceImpl implements DocumentService {
         List<Result> retList = new ArrayList<>();
         for(int i=0;i<size;i++){
             int userId = findByDoc.get(i).getUserid();
-            Result temp = new Result(accountDao.getNameById(userId),findByDoc.get(i).getUserPower());
+            Result temp = new Result(accountDao.getNameById(userId),findByDoc.get(i).getUserPower(),userId);
             retList.add(temp);
         }
         return retList;
