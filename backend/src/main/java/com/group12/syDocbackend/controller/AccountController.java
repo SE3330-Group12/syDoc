@@ -35,8 +35,8 @@ public class AccountController {
     public boolean checkDup(@RequestParam("name") String username){
         System.out.println("chackDup!");
         if(accountService.checkDup(username))
-            return true;
-        else return false;
+            return false;
+        else return true;
     }
 
     @RequestMapping("/addAccount")
@@ -60,7 +60,7 @@ public class AccountController {
     @RequestMapping("/addDocument")
     public Document addDocument( @RequestParam("userId")int userId,@RequestParam("docName")String docName,@RequestParam("type")String doctype){
         System.out.println("addDocument!");
-        return documentService.addDocument(userId,docName,type);
+        return documentService.addDocument(userId,docName,doctype);
     }
 
     @RequestMapping("/deleteDocument")

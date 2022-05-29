@@ -84,7 +84,7 @@ public class AccountDaoImpl implements AccountDao {
         Account toBeAdded = accountRepository.getById(userId);
 
         // 检查该用户文档列表中有无重复名字的文档
-        if(toBeAdded.findDupDoc(docName))return null;
+        if(toBeAdded.findDupDoc(docName,type))return null;
 
         //新建文档对象
         Document temp = new Document();

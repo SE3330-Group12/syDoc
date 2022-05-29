@@ -38,10 +38,11 @@ public class Account {
 
     public Account(){}
 
-    public boolean findDupDoc(String docname){
-        for(int i=0;i<projects.size();i++){
+    public boolean findDupDoc(String docname,String type){
+        int size = projects.size();
+        for(int i=0;i<size;i++){
             Document temp = projects.get(i);
-            if(temp.getDocumentName().equals(docname))return true;
+            if(temp.getDocumentName().equals(docname) && temp.getType().equals(type))return true;
         }
         return false;
     }
