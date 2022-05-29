@@ -13,9 +13,9 @@ import java.util.List;
 @Repository
 public class DocumentDaoimpl implements DocumentDao {
     @Autowired
-    DocumentRepository documentRepository;
+    private DocumentRepository documentRepository;
     @Autowired
-    PermissionRepository permissionRepository;
+    private PermissionRepository permissionRepository;
 
 
     @Override

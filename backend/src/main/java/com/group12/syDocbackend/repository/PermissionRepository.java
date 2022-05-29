@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PermissionRepository extends JpaRepository<Permission,Integer> {
     List<Permission> findPermissionsByDocid(int docid);
+    List<Permission> findPermissionsByDocidAndUserid(int docid,int userid);
 }

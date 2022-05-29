@@ -7,4 +7,6 @@ import java.util.List;
 public interface PermissionDao {
     List<Permission> allPermission();
     List<Permission> findByDoc(int DocId);
+    int getPermission(int docId,int userId);
+    boolean modifyPermission(int docId,int userId);
 }

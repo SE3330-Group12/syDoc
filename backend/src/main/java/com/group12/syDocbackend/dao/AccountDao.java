@@ -19,4 +19,5 @@ public interface AccountDao {
     boolean deleteDocument(int docId);
     String getNameById(int userId);
     Account getAccount(int accountId);
+    boolean deletePartner(int docId,int userId);
 }

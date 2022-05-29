@@ -78,6 +78,11 @@ public class AccountDaoImpl implements AccountDao {
         return acc;
     }
 
+    @Override
+    public boolean deletePartner(int docId,int userId){
+        //TODO
+        return true;
+    }
 
     @Override
     public Document addDocument(int userId,String docName,String type){

@@ -20,11 +20,11 @@ import java.util.Map;
 @Service
 public class DocumentServiceImpl implements DocumentService {
     @Autowired
-    AccountDao accountDao;
+    private AccountDao accountDao;
     @Autowired
-    DocumentDao documentDao;
+    private DocumentDao documentDao;
     @Autowired
-    PermissionDao permissionDao;
+    private PermissionDao permissionDao;
 
     @Override
     public Document addDocument(int userId,String docName,String type){
@@ -45,19 +45,21 @@ public class DocumentServiceImpl implements DocumentService {
 
     public class Result{
         String name;
-        int power;
+        String power;
 
         public Result(String name,int power){
             this.name = name;
-            this.power = power;
+            if(power==0) this.power="Creator";
+            else if(power ==1) this.power = "Editor";
+            else this.power = "Reader";
         }
         public Result(){}
 
-        public int getPower() {
+        public String  getPower() {
             return power;
         }
 
-        public void setPower(int power) {
+        public void setPower(String power) {
             this.power = power;
         }
 
@@ -69,6 +71,7 @@ public class DocumentServiceImpl implements DocumentService {
             this.name = name;
         }
     }
+
     @Override
     public List<Result> getUserPower(int docId){
         List<Permission> findByDoc = permissionDao.findByDoc(docId);
@@ -80,5 +83,10 @@ public class DocumentServiceImpl implements DocumentService {
             retList.add(temp);
         }
         return retList;
+    }
+
+    @Override
+    public int getPermission(int docId,int userId){
+        return permissionDao.getPermission(docId,userId);
     }
 }
