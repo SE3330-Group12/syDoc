@@ -1,16 +1,16 @@
 <template>
     <div class="bg_intro">
       <div class="intro">
-        <ul class="info">
+        <ul class="info" style="height: 35%">
           <li>
-            <input type="text" id="name" v-model="usname" placeholder="用户名" @keyup="checkusernull"/>
+            <input type="text" id="name" v-model="usname" placeholder="用户名" @blur="checkusernull"/>
 <!--              <el-input v-model="input" type="text" placeholder="用户名" @blur="checkusernull"/>-->
           </li>
           <!-- <li>
           <input type="email" id='email' placeholder="电子邮件">
         </li> -->
           <li>
-            <input type="password" id="password" placeholder="密码" @keyup="checkpasswordnull"/>
+            <input type="password" id="password" placeholder="密码" @blur="checkpasswordnull"/>
           </li>
           <!-- <li>
           <input type="password" id='SecPass' placeholder="再次确认密码">
@@ -19,10 +19,11 @@
 <!--        <router-link :to="{ name: 'home' }"-->
 <!--          ><button id="btn">登 &nbsp;&nbsp; 录</button>-->
 <!--        </router-link>-->
-        <button id="btn" @click="login()" style="margin: 0 auto">登 &nbsp;&nbsp; 录</button>
-        <router-link :to="{ name: 'Register' }"
-          ><a style="margin: 0 auto">No account? Click here to Register</a></router-link
-        >
+        <button id="btn" @click="login()" style="margin: 0 auto;width: 68%" >登 &nbsp;&nbsp; 录</button>
+        <br />
+        <router-link :to="{ name: 'Register' }" style="margin: auto">
+          <h style="text-align: center;">No account? Click here to Register</h>
+        </router-link>
         <br />
 <!--        <div v-show="usshow"><p type="text" style="color: white">用户名不能为空</p></div>-->
 <!--        <div v-show="passshow"><p type="text" style="color: white">密码不能为空</p></div>-->

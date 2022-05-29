@@ -60,6 +60,7 @@
  <el-row class="tac">
     <el-col :span="12">
       <el-menu
+          @select="handleSelect"
         active-text-color="#ffffff"
         background-color="#0d0d0d"
         class="el-menu-vertical-demo"
@@ -82,10 +83,10 @@
           <span>所有项目</span>
         </el-menu-item>
         <el-menu-item index="4">
-          <span>共享项目</span>
+          <span>你创建的项目</span>
         </el-menu-item>
         <el-menu-item index="5">
-          <span>已删除项目</span>
+          <span>你加入的项目</span>
         </el-menu-item>
       </el-menu>
     </el-col>
@@ -168,7 +169,7 @@ export default {
             });
           },1);
           this.centerDialogVisible = false;
-          this.$emit("save");
+          this.$emit("add");
         }
         }).catch(err=>{
         console.log(err);
@@ -212,11 +213,17 @@ export default {
             });
           },1);
           this.addToDoc = false;
-          this.$emit("save");
+          this.$emit("add");
         }
       }).catch(err=>{
         console.log(err);
       })
+    },
+    handleSelect(index){
+      console.log(index);
+      if(index=="3") this.$emit("allDoc");
+      if(index=="4") this.$emit("createdDoc");
+      if(index=="5") this.$emit("sharedDoc")
     }
   }
 };
