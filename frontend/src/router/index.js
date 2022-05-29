@@ -40,6 +40,12 @@ const routes = [
             import ('../views/Pages'),
     },
     {
+        path: "/Personal",
+        name: "Personal Center",
+        component: () =>
+            import ('../views/Personal Center'),
+    },
+    {
         path: '/',
         redirect: '/Login',
     }

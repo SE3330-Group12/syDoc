@@ -3,7 +3,7 @@
       <div class="intro">
         <ul class="info">
           <li>
-            <input type="text" id="name" placeholder="用户名" @keyup="checkusernull"/>
+            <input type="text" id="name" v-model="usname" placeholder="用户名" @keyup="checkusernull"/>
 <!--              <el-input v-model="input" type="text" placeholder="用户名" @blur="checkusernull"/>-->
           </li>
           <!-- <li>
@@ -43,24 +43,25 @@ export default {
       // passshow: false,
       // passwrong:false,
       input:"",
+      usname:this.$route.query.username,
     }
   },
   methods:{
     login() {
-      let usname = document.getElementById('name').value;
+      // let usname = document.getElementById('name').value;
       let password = document.getElementById('password').value;
       // this.usshow = (usname == "");
       // this.passshow = (password == "");
-      if(usname=="") this.checkusernull();
+      if(this.usname=="") this.checkusernull();
       if(password=="") {
         setTimeout(()=>{
           this.checkpasswordnull();
         },1);
       }
-      if (usname != "" || password != "") {
+      if (this.usname != "" || password != "") {
         instance.get('/checkAccount', {
           params: {
-            name: usname,
+            name: this.usname,
             password: password,
           }
         }).then(res => {
@@ -75,7 +76,7 @@ export default {
           }
           else {
             this.$router.push({
-              path:'/home',
+              path:'/Home',
               query: {
                 accountid: res.data.accountId,
                 usename: res.data.name,
@@ -97,8 +98,8 @@ export default {
       }
     },
     checkusernull(){
-      let usname = document.getElementById('name').value;
-      if(usname==""){
+      // let usname = document.getElementById('name').value;
+      if(this.usname==""){
         this.$message({
           showClose: true,
           message: '用户名不能为空',

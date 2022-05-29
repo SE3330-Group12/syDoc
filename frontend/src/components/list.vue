@@ -285,7 +285,7 @@ export default {
       })
     },
     share(){
-      instance.get('/url',{
+      instance.get('/getUsers',{
         params:{
           documentId:this.showdid
         }
