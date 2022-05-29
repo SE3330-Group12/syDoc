@@ -64,7 +64,7 @@
         active-text-color="#ffffff"
         background-color="#0d0d0d"
         class="el-menu-vertical-demo"
-        default-active="2"
+        :default-active="index"
         text-color="#383838">
 <!--        @open="handleOpen"-->
 <!--        @close="handleClose"-->
@@ -110,6 +110,7 @@ export default {
       sourceString:'431EYZDOWGVJ5AQMSFCU2TBIRPN796XH0KL',
       docuid:0,
       power:0,
+      index:"3",
       // documentok:false,
       // userok:false,
       msg:{
@@ -168,6 +169,7 @@ export default {
               type: 'success'
             });
           },1);
+          this.index="3";
           this.centerDialogVisible = false;
           this.$emit("add");
         }
@@ -215,6 +217,7 @@ export default {
               type: 'success'
             });
           },1);
+          this.index="3";
           this.addToDoc = false;
           this.$emit("add");
         }

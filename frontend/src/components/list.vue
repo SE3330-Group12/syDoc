@@ -62,17 +62,17 @@
       </el-table-column>
       <el-table-column prop="author" label="创建者" width="160" />
       <el-table-column prop="type" label="类型" width="160" />
-      <el-table-column prop="time" label="最后修改时间" width="190" sortable />
+      <el-table-column prop="time" label="最后修改时间" width="250" sortable />
       <el-table-column label="操作">
         <template #default="scope">
-          <el-tooltip content="下载" placement="top">
-            <el-button
-              type="primary"
-              color="#3F3F3F"
-              @click="downloadDialogVisible = true"
-              ><img src="../img/下载.png" alt=""
-            /></el-button>
-          </el-tooltip>
+<!--          <el-tooltip content="下载" placement="top">-->
+<!--            <el-button-->
+<!--              type="primary"-->
+<!--              color="#3F3F3F"-->
+<!--              @click="downloadDialogVisible = true"-->
+<!--              ><img src="../img/下载.png" alt=""-->
+<!--            /></el-button>-->
+<!--          </el-tooltip>-->
           <el-tooltip content="分享" placement="top">
             <el-button
               type="primary"
@@ -81,11 +81,11 @@
               ><img src="../img/分享.png" alt=""
             /></el-button>
           </el-tooltip>
-          <el-tooltip content="编辑历史" placement="top">
-            <el-button type="primary" color="#3F3F3F" @click="drawer = true"
-              ><img src="../img/播放记录.png" alt=""
-            /></el-button>
-          </el-tooltip>
+<!--          <el-tooltip content="编辑历史" placement="top">-->
+<!--            <el-button type="primary" color="#3F3F3F" @click="drawer = true"-->
+<!--              ><img src="../img/播放记录.png" alt=""-->
+<!--            /></el-button>-->
+<!--          </el-tooltip>-->
           <el-popconfirm
             title="您确定要删除这个文档吗"
             confirm-button-text="确定"
@@ -103,22 +103,22 @@
     </el-table>
 
     <!-- 下载选项弹框 -->
-    <el-dialog
-      v-model="downloadDialogVisible"
-      title="下载选项"
-      width="30%"
-      :before-close="handleClose"
-    >
-      <span>选择文件类型balabal</span>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="downloadDialogVisible = false">取消下载</el-button>
-          <el-button type="primary" @click="downloadDialogVisible = false"
-            >开始下载</el-button
-          >
-        </span>
-      </template>
-    </el-dialog>
+<!--    <el-dialog-->
+<!--      v-model="downloadDialogVisible"-->
+<!--      title="下载选项"-->
+<!--      width="30%"-->
+<!--      :before-close="handleClose"-->
+<!--    >-->
+<!--      <span>选择文件类型balabal</span>-->
+<!--      <template #footer>-->
+<!--        <span class="dialog-footer">-->
+<!--          <el-button @click="downloadDialogVisible = false">取消下载</el-button>-->
+<!--          <el-button type="primary" @click="downloadDialogVisible = false"-->
+<!--            >开始下载</el-button-->
+<!--          >-->
+<!--        </span>-->
+<!--      </template>-->
+<!--    </el-dialog>-->
 
     <!-- 分享选项 -->
     <el-dialog
@@ -171,22 +171,22 @@
     </el-dialog>
 
     <!-- 历史记录抽屉 -->
-    <el-drawer v-model="drawer" title="编辑历史" :before-close="handleClose">
-      <!-- 插了个描述列表在这里，具体怎么与后端通信写数据暂未实现 -->
-      <el-card shadow="hover">
-        <el-descriptions title="User Info" column="1">
-          <el-descriptions-item label="Username"
-            >kooriookami</el-descriptions-item
-          >
-          <el-descriptions-item label="Telephone"
-            >18100000000</el-descriptions-item
-          >
-          <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
-        </el-descriptions>
-      </el-card>
-      <el-card shadow="hover"> Hover </el-card>
-      <el-card shadow="hover"> Hover </el-card>
-    </el-drawer>
+<!--    <el-drawer v-model="drawer" title="编辑历史" :before-close="handleClose">-->
+<!--      &lt;!&ndash; 插了个描述列表在这里，具体怎么与后端通信写数据暂未实现 &ndash;&gt;-->
+<!--      <el-card shadow="hover">-->
+<!--        <el-descriptions title="User Info" column="1">-->
+<!--          <el-descriptions-item label="Username"-->
+<!--            >kooriookami</el-descriptions-item-->
+<!--          >-->
+<!--          <el-descriptions-item label="Telephone"-->
+<!--            >18100000000</el-descriptions-item-->
+<!--          >-->
+<!--          <el-descriptions-item label="Place">Suzhou</el-descriptions-item>-->
+<!--        </el-descriptions>-->
+<!--      </el-card>-->
+<!--      <el-card shadow="hover"> Hover </el-card>-->
+<!--      <el-card shadow="hover"> Hover </el-card>-->
+<!--    </el-drawer>-->
   </div>
 </template>
 
@@ -211,12 +211,12 @@ export default {
       shareDialogVisible: false,
       showdid:0,
       DocData: [
-        {
-          id: 1, name: "item.name", author: "You",type:"文档", time: "just now"
-        },
-        {
-          id: 2, name: "item.name", author: "papa",type:"文档", time: "just now"
-        }
+        // {
+        //   id: 1, name: "item.name", author: "You",type:"文档", time: "just now"
+        // },
+        // {
+        //   id: 2, name: "item.name", author: "papa",type:"文档", time: "just now"
+        // }
       ],
       ShowData:[
 
