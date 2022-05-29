@@ -52,7 +52,7 @@
 
   <!-- 显示数据主体 -->
   <div class="booklist">
-    <el-table :data="showData" border>
+    <el-table :data="ShowData" border>
       <el-table-column type="selection" width="55" />
       <el-table-column prop="name" label="标题" width="250">
         <template v-slot="scope">
@@ -61,6 +61,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="author" label="创建者" width="160" />
+      <el-table-column prop="type" label="类型" width="160" />
       <el-table-column prop="time" label="最后修改时间" width="190" sortable />
       <el-table-column label="操作">
         <template #default="scope">
@@ -209,10 +210,16 @@ export default {
       downloadDialogVisible: false,
       shareDialogVisible: false,
       showdid:0,
-      showData: [
+      DocData: [
         // {
-        //   id: 1, name: "item.name", author: "You", time: "just now"
+        //   id: 1, name: "item.name", author: "You",type:"文档", time: "just now"
+        // },
+        // {
+        //   id: 2, name: "item.name", author: "papa",type:"文档", time: "just now"
         // }
+      ],
+      ShowData:[
+
       ],
       options: [
         {
@@ -252,7 +259,7 @@ export default {
       }
     }).then(res => {
       res.data.forEach(item => {
-        this.showData.push({id: item.id, name: item.name, author: "You", time: "just now"});
+        this.DocData.push({id: item.id, name: item.name, author: item.author, type: item.type,time: "just now"});
       })
     }).catch(err => {
       console.log(err);
@@ -263,6 +270,7 @@ export default {
       // //   vmson.$on("addDocument",(val)=>{
       // //   console.log(val);
       // // })
+    this.ShowData=this.DocData;
     },
   // },
   methods:{
@@ -271,14 +279,14 @@ export default {
     },
     fresh(){
       // console.log(this.showData);
-      this.showData=[];
+      this.DocData=[];
       instance.get('/getDocList', {
         params: {
           userId: this.user.id,
         }
       }).then(res => {
         res.data.forEach(item => {
-          this.showData.push({id: item.id, name: item.name, author: "You", time: "just now"});
+          this.DocData.push({id: item.id, name: item.name, author: item.author,type: item.type, time: "just now"});
         })
       }).catch(err => {
         console.log(err);
@@ -313,6 +321,25 @@ export default {
       // console.log(this.code);
       this.code = '88888888' + this.code;//长度不足8，前面补全
       this.code = this.code.slice(this.code.length - 8,this.code.length);//截取最后8位字符串
+    },
+    allDoc(){
+      this.ShowData=this.DocData;
+    },
+    createdDoc(){
+      this.ShowData=[];
+      this.DocData.forEach(item=>{
+        if(item.author==this.user.name){
+          this.ShowData.push(item);
+        }
+      })
+    },
+    sharedDoc(){
+      this.ShowData=[];
+      this.DocData.forEach(item=>{
+        if(item.author!=this.user.name){
+          this.ShowData.push(item);
+        }
+      })
     },
   }
 };
