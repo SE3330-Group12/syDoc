@@ -5,7 +5,6 @@ import com.group12.syDocbackend.entity.Document;
 import com.group12.syDocbackend.service.AccountService;
 import com.group12.syDocbackend.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,12 +12,18 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-public class Controller {
+public class AccountController {
     @Autowired
     private AccountService accountService;
 
     @Autowired
     private DocumentService documentService;
+
+    @RequestMapping  ("/getAccount")
+    public Account getAccount(@RequestParam("accountID") int accountId){
+        System.out.println("getAccount--"+accountId);
+        return accountService.getAccount(accountId);
+    }
 
     @RequestMapping  ("/checkAccount")
     public Account checkAccount(@RequestParam("name") String username, @RequestParam("password") String password){
@@ -43,7 +48,7 @@ public class Controller {
     @RequestMapping("/getDocList")
     public List<Map> getDocList(@RequestParam("userId")int userId){
         System.out.println("getDocList!");
-        return accountService.getDocList(userId);
+        return documentService.getDocList(userId);
     }
 
     @RequestMapping("/invite")
@@ -55,9 +60,6 @@ public class Controller {
     @RequestMapping("/addDocument")
     public Document addDocument( @RequestParam("userId")int userId,@RequestParam("docName")String docName,@RequestParam("type")String doctype){
         System.out.println("addDocument!");
-        int type;
-        if(doctype.equals("text"))type = 0;
-        else type = 1;
         return documentService.addDocument(userId,docName,type);
     }
 

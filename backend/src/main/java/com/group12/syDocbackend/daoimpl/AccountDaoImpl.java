@@ -28,6 +28,11 @@ public class AccountDaoImpl implements AccountDao {
     private PermissionRepository permissionRepository;
 
     @Override
+    public Account getAccount(int accountId){
+        return accountRepository.getById(accountId);
+    }
+
+    @Override
     public void addAccount(String name,String password,String email){
         Account a = new Account();
         a.setName(name);
@@ -75,7 +80,7 @@ public class AccountDaoImpl implements AccountDao {
 
 
     @Override
-    public Document addDocument(int userId,String docName,int type){
+    public Document addDocument(int userId,String docName,String type){
         Account toBeAdded = accountRepository.getById(userId);
 
         // 检查该用户文档列表中有无重复名字的文档
@@ -85,6 +90,7 @@ public class AccountDaoImpl implements AccountDao {
         Document temp = new Document();
         temp.setDocumentName(docName);
         temp.setType(type);
+        temp.setAuthor(toBeAdded.getName());
         List<Document> oldDocList = toBeAdded.getProjects();
         oldDocList.add(temp);
         toBeAdded.setProjects(oldDocList);
@@ -118,8 +124,12 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public boolean deleteDocument(int docId){
-//        List<Integer> userlist = accountRepository.getAccByDoc(docId);
         documentRepository.deleteById(docId);
         return true;
+    }
+
+    @Override
+    public String getNameById(int userId){
+        return accountRepository.getById(userId).getName();
     }
 }

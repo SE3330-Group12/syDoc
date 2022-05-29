@@ -27,7 +27,10 @@ public class Document {
     private String documentName;
 
     @Column(name = "type")
-    private int type;
+    private String type;
+
+    @Column(name = "author")
+    private String author;
 
     @ManyToMany(fetch = FetchType.LAZY,mappedBy = "projects",cascade = CascadeType.MERGE)
     private List<Account> accounts = new ArrayList<>();

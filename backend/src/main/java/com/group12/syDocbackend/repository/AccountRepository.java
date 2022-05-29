@@ -27,9 +27,7 @@ public interface AccountRepository extends JpaRepository<Account,Integer> {
     @Query(value = "from Account where name=:name")
     List<Account> checkAccDup(@Param("name") String accName);
 
-    @Query(nativeQuery = true, value = "select b.id,b.name from account_document as a,documents as b where a.user_id=:userId and a.document_id=b.id")
+    @Query(nativeQuery = true, value = "select b.id,b.name,b.type,b.author from account_document as a,documents as b where a.user_id=:userId and a.document_id=b.id")
     List<Map> getDocList(@RequestParam("userId") int userId);
 
-    @Query(nativeQuery = true,value = "select a.user_id from account_document as a,documents as b where a.document_id=:docId and a.document_id=b.id")
-    List<Integer> getAccByDoc(@RequestParam("docId")int docId);
 }

@@ -13,8 +13,10 @@ public interface AccountDao {
     Account invite(int userId, int documentId,int userPower);
     boolean checkAccNameDup(String name);
     Account checkAccount(String name,String password);
-    Document addDocument(int userId,String docName,int type);
+    Document addDocument(int userId,String docName,String type);
     boolean modifyDocName(int docId,String newname);
     List<Map> getDocList(int userId);
     boolean deleteDocument(int docId);
+    String getNameById(int userId);
+    Account getAccount(int accountId);
 }
