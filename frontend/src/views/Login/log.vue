@@ -1,7 +1,7 @@
 <template>
     <div class="bg_intro">
       <div class="intro">
-        <ul class="info" style="height: 35%">
+        <ul class="info" >
           <li>
             <input type="text" id="name" v-model="usname" placeholder="用户名" @blur="checkusernull"/>
 <!--              <el-input v-model="input" type="text" placeholder="用户名" @blur="checkusernull"/>-->
@@ -15,16 +15,17 @@
           <!-- <li>
           <input type="password" id='SecPass' placeholder="再次确认密码">
         </li> -->
+          <button id="btn" @click="login()" style="margin: 0 auto;width: 20vw ">登 &nbsp;&nbsp; 录</button>
+          <br />
+          <router-link :to="{ name: 'Register' }" style="margin: auto">
+            <h style="text-align: center;">No account? Click here to Register</h>
+          </router-link>
+          <br />
         </ul>
 <!--        <router-link :to="{ name: 'home' }"-->
 <!--          ><button id="btn">登 &nbsp;&nbsp; 录</button>-->
 <!--        </router-link>-->
-        <button id="btn" @click="login()" style="margin: 0 auto;width: 68%" >登 &nbsp;&nbsp; 录</button>
-        <br />
-        <router-link :to="{ name: 'Register' }" style="margin: auto">
-          <h style="text-align: center;">No account? Click here to Register</h>
-        </router-link>
-        <br />
+
 <!--        <div v-show="usshow"><p type="text" style="color: white">用户名不能为空</p></div>-->
 <!--        <div v-show="passshow"><p type="text" style="color: white">密码不能为空</p></div>-->
 <!--        <div v-show="passwrong"><p type="text" style="color: white">用户名或密码错误！</p></div>-->

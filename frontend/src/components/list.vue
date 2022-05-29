@@ -90,7 +90,7 @@
             title="您确定要删除这个文档吗"
             confirm-button-text="确定"
             cancel-button-text="取消"
-            @confirm="confirmEvent(scope.row)"
+            @confirm="delete(scope.row)"
           >
             <template #reference>
               <el-button type="primary" color="#3F3F3F"
@@ -211,12 +211,12 @@ export default {
       shareDialogVisible: false,
       showdid:0,
       DocData: [
-        // {
-        //   id: 1, name: "item.name", author: "You",type:"文档", time: "just now"
-        // },
-        // {
-        //   id: 2, name: "item.name", author: "papa",type:"文档", time: "just now"
-        // }
+        {
+          id: 1, name: "item.name", author: "You",type:"文档", time: "just now"
+        },
+        {
+          id: 2, name: "item.name", author: "papa",type:"文档", time: "just now"
+        }
       ],
       ShowData:[
 
@@ -291,8 +291,10 @@ export default {
       }).catch(err => {
         console.log(err);
       })
+      this.ShowData=this.DocData;
     },
     share(){
+      this.shareUser=[];
       instance.get('/getUsers',{
         params:{
           documentId:this.showdid
@@ -341,6 +343,19 @@ export default {
         }
       })
     },
+    delete(Doc){
+      instance.post('/deleteDocument',null,{
+        params:{
+          docId:Doc.id
+        }
+      }).then(res=>{
+        if(res.data){
+          this.$options.methods.fresh.bind(this)();
+        }
+      }).catch(err =>{
+        console.log(err);
+      })
+    }
   }
 };
 

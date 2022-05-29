@@ -171,6 +171,9 @@ export default {
           this.centerDialogVisible = false;
           this.$emit("add");
         }
+        else{
+          this.$message.error("文档名重复");
+        }
         }).catch(err=>{
         console.log(err);
       });
