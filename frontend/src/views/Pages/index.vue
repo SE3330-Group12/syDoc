@@ -11,17 +11,39 @@
       @focus="onEditorFocus($event)"
       @textChange="onEditorChange($event)"
       @ready="onEditorReady($event)"
-      style="min-height:200px"
+      style="min-height:500px"
+      :options="editorOption"
     />
     <div id="count">当前字数：{{ count }}</div>
+    <div>
+      <button id="cmd" @click="toPDF()">导出为PDF</button>
+    </div>
   </div>
 </template>
 
 <script>
 import Header from "../../components/header.vue";
+import { saveAs } from 'file-saver'
+import { pdfExporter } from 'quill-to-pdf'
 
 import { reactive, ref, toRefs, toRaw } from "vue";
 import { useWebSocket } from "../../hooks";
+
+const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'],        // 加粗，斜体，下划线，删除线
+  ['blockquote', 'code-block'],                     //引用，代码块
+  [{ 'header': 1 }, { 'header': 2 }],               // 几级标题
+  [{ 'list': 'ordered' }, { 'list': 'bullet' }],    // 有序列表，无序列表
+  [{ 'script': 'sub' }, { 'script': 'super' }],     // 下角标，上角标
+  [{ 'indent': '-1' }, { 'indent': '+1' }],         // 缩进
+  [{ 'direction': 'rtl' }],                         // 文字输入方向
+  [{ 'size': ['small', false, 'large', 'huge'] }],  // 字体大小
+  [{ 'color': [] }],          // 颜色选择
+  [{ 'font': [] }], // 字体
+  [{ 'align': [] }],    // 居中
+  ['clean'],            // 清除样式,
+  ['link', 'image'],  // 上传图片、上传视频
+]
 
 export default {
   props: {
@@ -29,7 +51,8 @@ export default {
   },
   setup(props) {
     var docId = window.location.href.split("?")[1].split("=")[1];
-    console.log("docID", docId);
+    var docName = window.location.href.split("&")[1].split("=")[1];
+    console.log("docname", docName);
 
     let content = ref("");
     content.value = props.getContent;
@@ -88,6 +111,14 @@ export default {
       });
     };
 
+     async function toPDF() {
+      let quill = toRaw(myQuillEditor.value).getQuill();
+      const delta = quill.getContents();   //gets the Quill delta
+      const pdfAsBlob = await pdfExporter.generatePdf(delta); //converts to PDF
+      //saveAs(pdfAsBlob, 'pdf-export.pdf'); //downloads from the browser
+      saveAs(pdfAsBlob, docName);
+    } 
+
     return {
       ...toRefs(state),
       content,
@@ -96,11 +127,34 @@ export default {
       onEditorFocus,
       onEditorReady,
       onEditorBlur,
+      toPDF,
     };
   },
+  methods: {
+
+  },
+
   components: {
     Header,
+    
   },
+
+  
+  data() {
+    return {
+      content: "",
+      editorOption: {
+        //ImageResize:{},
+        theme: "snow",
+        modules: {
+          toolbar: toolbarOptions,
+     /*      ImageResize:{}, */
+        },
+      },
+    };
+  },
+
+ 
 };
 </script>
 
