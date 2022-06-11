@@ -1,4 +1,33 @@
 <template>
+
+  <el-dialog
+      v-model="template1"
+      title=""
+      width="80%"
+      height="50%"
+      destroy-on-close
+      center
+  >
+    <el-image
+        style="width: 100%; height: 100%"
+        :src="require('@/img/report.jpg')"
+        :fit="fit"></el-image>
+  </el-dialog>
+
+  <el-dialog
+      v-model="template2"
+      title=""
+      width="40%"
+      height="40%"
+      destroy-on-close
+      center
+  >
+    <el-image
+        style="width: 100%; height: 100%"
+        :src="require('@/img/resume.jpg')"
+        :fit="fit"></el-image>
+  </el-dialog>
+
   <!--创建文档弹窗-->
   <el-dialog
       v-model="centerDialogVisible"
@@ -20,11 +49,32 @@
 <!--          <el-input type="text" v-model="userid" placeholder="请输入邀请的用户id" />-->
 <!--      </el-form-item>-->
       <el-select v-model="value" placeholder="请选择项目类型" style="margin: 0 auto">
-        <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+<!--        <el-option-->
+<!--            v-for="item in options"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--          <span style="float: left">{{ item.label }}</span>-->
+<!--          <el-button type="info" style="float: right" plain>详情</el-button>-->
+<!--        </el-option>-->
+        <el-option value="text" label="文档">
+          <span style="float: left">文档</span>
+        </el-option>
+        <el-option value="excel" label="表格">
+          <span style="float: left">表格</span>
+        </el-option>
+        <el-option value="report template" label="模板1: 报告">
+          <span style="float: left">模板1: 报告</span>
+          <el-button type="info" style="float: right" @click="template1=true" plain>详情</el-button>
+        </el-option>
+        <el-option value="resume template" label="模板2: 简历">
+          <span style="float: left">模板2: 简历</span>
+<!--            <el-image-->
+<!--                style="width: 10vw; height: 10vh; float:right;"-->
+<!--                :src="require('@/img/resume.jpg')"-->
+<!--                :preview-src-list="require('@/img/resume.jpg')">-->
+<!--            </el-image>-->
+          <el-button type="info" style="float: right" @click="template2=true" plain>详情</el-button>
         </el-option>
       </el-select>
     </div>
@@ -37,6 +87,7 @@
       </span>
     </template>
   </el-dialog>
+
 
   <el-dialog
       v-model="addToDoc"
@@ -98,6 +149,7 @@
 // import { ref } from 'vue'
 // const centerDialogVisible = ref(false)
 import {instance} from "@/axios/axios";
+// import report from "@/img/report.jpg";
 export default {
   data(){
     return{
@@ -106,6 +158,9 @@ export default {
       userid:"",
       centerDialogVisible:false,
       addToDoc:false,
+      template1:false,
+      template2:false,
+      // temp1url:report,
       code:"",
       sourceString:'431EYZDOWGVJ5AQMSFCU2TBIRPN796XH0KL',
       docuid:0,
@@ -117,14 +172,21 @@ export default {
         docid:this.documentid,
         docname:this.documentname,
       },
-      options: [{
-        value: 'text',
-        label: '文档'
-      }, {
-        value: 'excel',
-        label: '表格'
-      },
-      ],
+      // options: [{
+      //   value: 'text',
+      //   label: '文档'
+      // }, {
+      //   value: 'excel',
+      //   label: '表格'
+      // },{
+      //   value: 'report template',
+      //   label: '模板1: 报告'
+      // },
+      //   {
+      //     value: 'resume template',
+      //     label: '模板2: 简历'
+      //   }
+      // ],
       value:''
     }
   },
