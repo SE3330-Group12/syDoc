@@ -58,7 +58,7 @@
       <el-table-column prop="name" label="标题" width="250">
         <template v-slot="scope">
           <!-- <el-link type="primary" @click="seeblog(scope.row)">查看详情</el-link> -->
-          <a :href="getHref(scope.row.id)">{{ scope.row.name }}</a>
+          <a :href="getHref(scope.row.id, scope.row.name)">{{ scope.row.name }}</a>
         </template>
       </el-table-column>
       <el-table-column prop="author" label="创建者" width="160" />
@@ -282,8 +282,8 @@ export default {
     },
   // },
   methods:{
-    getHref(val){
-      return '/Pages?docid='+val;
+    getHref(val, val2){
+      return '/Pages?docid='+val+'&docname='+val2+'?userid='+this.$route.query.accountid;
     },
     fresh(){
       // console.log(this.showData);
