@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import {instance} from "@/axios/axios";
 import Header from "../../components/header.vue";
 import { saveAs } from "file-saver";
 import { pdfExporter } from "quill-to-pdf";
@@ -321,6 +322,25 @@ export default {
       }
            
       quill.updateContents(delta);
+
+      instance
+        .get('/getPermission', {
+          params: {
+            documentId: docId,
+            userId: uid,
+          },
+          
+        })
+        .then((res) => {
+          console.log('res',res.data);
+          //permission = res.data; 
+          if(res.data == 2) {
+            quill.enable(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
 
       quill.on("text-change", (delta) => {
