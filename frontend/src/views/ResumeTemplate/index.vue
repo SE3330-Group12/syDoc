@@ -53,7 +53,7 @@ export default {
   setup(props) {
     var docId = window.location.href.split("?")[1].split("=")[1].split("&")[0];
     var docName = window.location.href.split("?")[1].split("&")[1].split("=")[1];
-    var uid = window.location.href.split("?")[2].split("=")[1];
+    var uid = window.location.href.split("&")[2].split("=")[1];
 
     let content = ref("");
     content.value = props.getContent;
