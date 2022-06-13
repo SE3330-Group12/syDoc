@@ -56,7 +56,7 @@ export default {
       .split("?")[1]
       .split("&")[1]
       .split("=")[1];
-    var uid = window.location.href.split("?")[2].split("=")[1];
+    var uid = window.location.href.split("&")[2].split("=")[1];
 
     let content = ref("");
     content.value = props.getContent;
