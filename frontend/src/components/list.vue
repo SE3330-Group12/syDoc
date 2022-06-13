@@ -82,6 +82,14 @@
               ><img src="../img/分享.png" alt=""
             /></el-button>
           </el-tooltip>
+          <el-tooltip content="团队管理" placement="top">
+            <el-button
+                type="primary"
+                color="#3F3F3F"
+                @click="teamDialogVisible = true;this.showdid=scope.row.id;this.dauthor=scope.row.author;share()"
+            ><img src="../img/创作.png" alt=""
+            /></el-button>
+          </el-tooltip>
 <!--          <el-tooltip content="编辑历史" placement="top">-->
 <!--            <el-button type="primary" color="#3F3F3F" @click="drawer = true"-->
 <!--              ><img src="../img/播放记录.png" alt=""-->
@@ -133,39 +141,10 @@
       <el-divider />
       <div v-for="user in shareUser">
               <el-row>
-                <el-col :span="7">{{user.username}}</el-col>
-                <el-col :span="7">{{user.userpower}}</el-col>
-
-<!--                <el-tooltip content="修改成员权限" placement="top">-->
-<!--                  <el-button-->
-<!--                      type="primary"-->
-<!--                      color="#3F3F3F"-->
-<!--                      @click=""-->
-<!--                  ><img src="../img/创作.png" alt=""-->
-<!--                  /></el-button>-->
-<!--                </el-tooltip>-->
-                <el-popconfirm
-                    title="您确定要修改此成员的权限?"
-                    confirm-button-text="确定"
-                    cancel-button-text="取消"
-                    @confirm="changePower(user.userId)"
-                >
-                  <template #reference>
-                    <el-button type="primary" color="#3F3F3F" :disabled="this.dauthor!=this.user.name"
-                    ><img src="../img/创作.png" alt=""
-                    /></el-button>
-                  </template>
-                </el-popconfirm>
-                <el-col :span="1"></el-col>
-                  <el-tooltip content="删除成员" placement="top">
-                    <el-button
-                        type="primary"
-                        color="#3F3F3F"
-                        @click="deleteUser(user.userId)"
-                        :disabled="this.dauthor!=this.user.name"
-                    ><img src="../img/删除.png" alt=""
-                    /></el-button>
-                  </el-tooltip>
+                <el-col :span="2"></el-col>
+                <el-col :span="10">{{user.username}}</el-col>
+                <el-col :span="10">{{user.userpower}}</el-col>
+<!--                <el-col :span="4"></el-col>-->
               </el-row>
         <el-divider border-style="dashed" />
       </div>
@@ -192,6 +171,47 @@
       <br />
     </el-dialog>
 
+<!--团队管理-->
+    <el-dialog
+        v-model="teamDialogVisible"
+        title="团队管理"
+        width="50%"
+        :before-close="handleClose"
+    >
+      <el-divider />
+      <div v-for="user in shareUser">
+        <el-row>
+          <el-col :span="7">{{user.username}}</el-col>
+          <el-col :span="7">{{user.userpower}}</el-col>
+          <el-popconfirm
+              title="您确定要修改此成员的权限?"
+              confirm-button-text="确定"
+              cancel-button-text="取消"
+              @confirm="changePower(user.userId)"
+          >
+            <template #reference>
+              <el-button type="primary" color="#3F3F3F"
+                         :disabled="(this.dauthor==this.user.name)&&(this.dauthor==user.username)"
+              ><img src="../img/创作.png" alt=""
+              /></el-button>
+            </template>
+          </el-popconfirm>
+          <el-col :span="1"></el-col>
+          <el-tooltip content="删除成员" placement="top">
+            <el-button
+                type="primary"
+                color="#3F3F3F"
+                @click="deleteUser(user.userId)"
+                :disabled="(this.dauthor==this.user.name)&&(this.dauthor==user.username)"
+            ><img src="../img/删除.png" alt=""
+            /></el-button>
+          </el-tooltip>
+        </el-row>
+        <el-divider />
+      </div>
+      <br />
+    </el-dialog>
+
   </div>
 </template>
 
@@ -214,21 +234,22 @@ export default {
       drawer: false,
       downloadDialogVisible: false,
       shareDialogVisible: false,
+      teamDialogVisible: false,
       showdid:0,
       dauthor:"",
       DocData: [
-        // {
-        //   id: 1, name: "item.name", author: "You",type:"text", time: "just now"
-        // },
-        // {
-        //   id: 2, name: "item.name", author: "papa",type:"excel", time: "just now"
-        // },
-        // {
-        //   id: 3, name: "item.name", author: "papa",type:"report template", time: "just now"
-        // },
-        // {
-        //   id: 4, name: "item.name", author: "papa",type:"resume template", time: "just now"
-        // }
+        {
+          id: 1, name: "item.name", author: "You",type:"text", time: "just now"
+        },
+        {
+          id: 2, name: "item.name", author: "papa",type:"excel", time: "just now"
+        },
+        {
+          id: 3, name: "item.name", author: "papa",type:"report template", time: "just now"
+        },
+        {
+          id: 4, name: "item.name", author: "papa",type:"resume template", time: "just now"
+        }
       ],
       ShowData:[
       ],
@@ -244,16 +265,21 @@ export default {
         },
       ],
       shareUser:[
-        // {
-        //   userId:1,
-        //   username:"User1",
-        //   userpower:"Edit",
-        // },
-        // {
-        //   userId: 2,
-        //   username: "User2",
-        //   userpower: "Read",
-        // },
+        {
+          userId:1,
+          username:"User1",
+          userpower:"Edit",
+        },
+        {
+          userId: 2,
+          username: "User2",
+          userpower: "Read",
+        },
+        {
+          userId: 3,
+          username: "papa",
+          userpower: "Creator",
+        },
       ],
       sourceString:"431EYZDOWGVJ5AQMSFCU2TBIRPN796XH0KL",
       code:""
@@ -319,7 +345,7 @@ export default {
       this.ShowData=this.DocData;
     },
     share(){
-      this.shareUser=[];
+      //this.shareUser=[];
       instance.get('/getUsers',{
         params:{
           documentId:this.showdid
