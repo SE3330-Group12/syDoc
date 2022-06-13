@@ -35,4 +35,16 @@ public class PermissionContorller {
         System.out.println("getPermission--"+docId+" "+userId);
         return documentService.getPermission(docId,userId);
     }
+
+    @RequestMapping("/changePower")
+    public boolean changePower(@RequestParam("documentId")int docId,@RequestParam("userName") int userName){
+        System.out.println("changePower--"+docId+" "+userName);
+        return permissionService.modifyPermission(docId,userName);
+    }
+
+    @RequestMapping("/deleteUser")
+    public boolean deleteUser(@RequestParam("documentId")int docId,@RequestParam("userId") int userId){
+        System.out.println("deletePartner--doc: "+docId+" user: "+userId);
+        return permissionService.deletePartner(docId,userId);
+    }
 }

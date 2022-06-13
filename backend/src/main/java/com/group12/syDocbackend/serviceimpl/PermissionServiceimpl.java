@@ -11,7 +11,12 @@ public class PermissionServiceimpl implements PermissionService {
     private PermissionDao permissionDao;
 
     @Override
-    public boolean modifyPermission(int docId,int userId){
-        return permissionDao.modifyPermission(docId,userId);
+    public boolean modifyPermission(int docId,int userName){
+        return permissionDao.modifyPermission(docId,userName);
+    }
+
+    @Override
+    public boolean deletePartner(int documentId, int userId){
+        return permissionDao.deletePartner(documentId, userId);
     }
 }

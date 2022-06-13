@@ -30,4 +30,5 @@ public interface AccountRepository extends JpaRepository<Account,Integer> {
     @Query(nativeQuery = true, value = "select b.id,b.name,b.type,b.author from account_document as a,documents as b where a.user_id=:userId and a.document_id=b.id")
     List<Map> getDocList(@RequestParam("userId") int userId);
 
+    List<Account> findAccountsByName(String userName);
 }

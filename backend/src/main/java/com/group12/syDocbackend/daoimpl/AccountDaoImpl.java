@@ -129,8 +129,29 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public boolean deleteDocument(int docId){
-        documentRepository.deleteById(docId);
-        return true;
+        List<Account> toBeDelete= documentRepository.getById(docId).getAccounts();
+        int accountNumber = toBeDelete.size();
+        for(int k=0;k<accountNumber;k++){
+            Account currentAccount = toBeDelete.get(k);
+            List<Document> projects = currentAccount.getProjects();
+            int size = projects.size();
+            for(int i=0;i<size;i++){
+                if(projects.get(i).getDocumentId()==docId){
+                    projects.remove(i);
+                    currentAccount.setProjects(projects);
+                    accountRepository.save(currentAccount);
+                    List<Permission> temp = permissionRepository.findPermissionsByDocid(docId);
+                    int permissionSize = temp.size();
+                    for(int j=0;j<permissionSize;j++){
+                        permissionRepository.delete(temp.get(j));
+                    }
+                    permissionRepository.flush();
+                    documentRepository.deleteById(docId);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
