@@ -238,18 +238,18 @@ export default {
       showdid:0,
       dauthor:"",
       DocData: [
-        {
-          id: 1, name: "item.name", author: "You",type:"text", time: "just now"
-        },
-        {
-          id: 2, name: "item.name", author: "papa",type:"excel", time: "just now"
-        },
-        {
-          id: 3, name: "item.name", author: "papa",type:"report template", time: "just now"
-        },
-        {
-          id: 4, name: "item.name", author: "papa",type:"resume template", time: "just now"
-        }
+        // {
+        //   id: 1, name: "item.name", author: "You",type:"text", time: "just now"
+        // },
+        // {
+        //   id: 2, name: "item.name", author: "papa",type:"excel", time: "just now"
+        // },
+        // {
+        //   id: 3, name: "item.name", author: "papa",type:"report template", time: "just now"
+        // },
+        // {
+        //   id: 4, name: "item.name", author: "papa",type:"resume template", time: "just now"
+        // }
       ],
       ShowData:[
       ],
@@ -265,21 +265,21 @@ export default {
         },
       ],
       shareUser:[
-        {
-          userId:1,
-          username:"User1",
-          userpower:"Edit",
-        },
-        {
-          userId: 2,
-          username: "User2",
-          userpower: "Read",
-        },
-        {
-          userId: 3,
-          username: "papa",
-          userpower: "Creator",
-        },
+        // {
+        //   userId:1,
+        //   username:"User1",
+        //   userpower:"Edit",
+        // },
+        // {
+        //   userId: 2,
+        //   username: "User2",
+        //   userpower: "Read",
+        // },
+        // {
+        //   userId: 3,
+        //   username: "papa",
+        //   userpower: "Creator",
+        // },
       ],
       sourceString:"431EYZDOWGVJ5AQMSFCU2TBIRPN796XH0KL",
       code:""
@@ -345,7 +345,7 @@ export default {
       this.ShowData=this.DocData;
     },
     share(){
-      //this.shareUser=[];
+      this.shareUser=[];
       instance.get('/getUsers',{
         params:{
           documentId:this.showdid
