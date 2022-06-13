@@ -58,7 +58,7 @@
       <el-table-column prop="name" label="标题" width="250">
         <template v-slot="scope">
           <!-- <el-link type="primary" @click="seeblog(scope.row)">查看详情</el-link> -->
-          <a :href="getHref(scope.row.id, scope.row.name)">{{ scope.row.name }}</a>
+          <a :href="getHref(scope.row.id, scope.row.name,scope.row.type)">{{ scope.row.name }}</a>
         </template>
       </el-table-column>
       <el-table-column prop="author" label="创建者" width="160" />
@@ -218,10 +218,16 @@ export default {
       dauthor:"",
       DocData: [
         // {
-        //   id: 1, name: "item.name", author: "You",type:"文档", time: "just now"
+        //   id: 1, name: "item.name", author: "You",type:"text", time: "just now"
         // },
         // {
-        //   id: 2, name: "item.name", author: "papa",type:"文档", time: "just now"
+        //   id: 2, name: "item.name", author: "papa",type:"excel", time: "just now"
+        // },
+        // {
+        //   id: 3, name: "item.name", author: "papa",type:"report template", time: "just now"
+        // },
+        // {
+        //   id: 4, name: "item.name", author: "papa",type:"resume template", time: "just now"
         // }
       ],
       ShowData:[
@@ -282,8 +288,19 @@ export default {
     },
   // },
   methods:{
-    getHref(val, val2){
-      return '/Pages?docid='+val+'&docname='+val2+'?userid='+this.$route.query.accountid;
+    getHref(val, val2,type){
+      if(type=="text") {
+        return '/Pages?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
+      }
+      if(type=="excel"){
+          return '/Excel?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
+      }
+      if(type=="report template"){
+        return '/CovLetter?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
+      }
+      if(type=="resume template"){
+        return '/Resume?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
+      }
     },
     fresh(){
       // console.log(this.showData);
