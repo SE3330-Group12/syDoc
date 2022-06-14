@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +22,12 @@ public class Controller {
 
     @Autowired
     private DocumentService documentService;
-
+    @RequestMapping("/load")
+    public Object load() throws IOException {
+        byte[] bytes = Files.readAllBytes(Paths.get("./def.json"));
+        System.out.println("load sheet");
+        return new String(bytes);
+    }
     @RequestMapping  ("/checkAccount")
     public Account checkAccount(@RequestParam("name") String username, @RequestParam("password") String password){
         System.out.println("chackAccount!");
