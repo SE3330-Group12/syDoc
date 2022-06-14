@@ -1,6 +1,7 @@
 package com.group12.syDocbackend.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,49 +11,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 @Table(name="accounts")
 @JsonIgnoreProperties(value={"handler","hibernateLazyInitializer","fieldHandler"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "accountId")
 public class Account {
-    private int accountId;
-    private String name;
-    private String password;
-    private String email;
-    public List<Document> projects = new ArrayList<>();
-
-    public Account(){}
-
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id")
-    public Integer getAccountId() {
-        return accountId;
-    }
-    public void setAccountId(Integer id) {this.accountId = id;}
+    private int accountId;
 
-    @Basic
-    @Column(name="password")
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {this.password = password;}
-
-    @Basic
     @Column(name="name")
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {this.name = name;}
+    private String name;
 
-    @Basic
+    @Column(name="password")
+    private String password;
+
     @Column(name="email")
-    public String getEmail(){return email;}
-    public void setEmail(String email){this.email = email;}
+    private String email;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name="ACCOUNT_DOCUMENT",joinColumns = @JoinColumn(name = "USER_ID"),
-    inverseJoinColumns = @JoinColumn(name = "DOCUMENT_ID"))
-    public List<Document> getProjects(){return projects;}
-    public void setProjects(List<Document> projects){this.projects = projects;}
+            inverseJoinColumns = @JoinColumn(name = "DOCUMENT_ID"))
+    public List<Document> projects = new ArrayList<>();
+
+    public Account(){}
+
+    public boolean findDupDoc(String docname,String type){
+        int size = projects.size();
+        for(int i=0;i<size;i++){
+            Document temp = projects.get(i);
+            if(temp.getDocumentName().equals(docname) && temp.getType().equals(type))return true;
+        }
+        return false;
+    }
+
 }

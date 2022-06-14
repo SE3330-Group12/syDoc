@@ -2,12 +2,13 @@
   <!-- 搜索项目栏 -->
   <div class="search_bar">
     <el-input
-      @input="searchnow"
-      type="text"
-      v-model="input"
-      placeholder="请输入要查找的项目名称"
+        @input="recoverdata"
+        @keyup.enter="searchnow"
+        type="text"
+        v-model="input"
+        placeholder="请输入要查找的项目名称"
     />
-    <el-button type="primary">搜索</el-button>
+    <el-button type="primary" @click="searchnow">搜索</el-button>
     <!-- <el-button type="primary" @click="addBooks">添加</el-button> -->
   </div>
 
@@ -52,44 +53,53 @@
 
   <!-- 显示数据主体 -->
   <div class="booklist">
-    <el-table :data="showData" border>
+    <el-table :data="ShowData" border>
       <el-table-column type="selection" width="55" />
       <el-table-column prop="name" label="标题" width="250">
         <template v-slot="scope">
           <!-- <el-link type="primary" @click="seeblog(scope.row)">查看详情</el-link> -->
-          <a :href="getHref(scope.row.id)">{{ scope.row.name }}</a>
+          <a :href="getHref(scope.row.id, scope.row.name,scope.row.type)">{{ scope.row.name }}</a>
         </template>
       </el-table-column>
       <el-table-column prop="author" label="创建者" width="160" />
-      <el-table-column prop="time" label="最后修改时间" width="190" sortable />
+      <el-table-column prop="type" label="类型" width="160" />
+      <el-table-column prop="time" label="最后修改时间" width="250" sortable />
       <el-table-column label="操作">
         <template #default="scope">
-          <el-tooltip content="下载" placement="top">
-            <el-button
-              type="primary"
-              color="#3F3F3F"
-              @click="downloadDialogVisible = true"
-              ><img src="../img/下载.png" alt=""
-            /></el-button>
-          </el-tooltip>
+<!--          <el-tooltip content="下载" placement="top">-->
+<!--            <el-button-->
+<!--              type="primary"-->
+<!--              color="#3F3F3F"-->
+<!--              @click="downloadDialogVisible = true"-->
+<!--              ><img src="../img/下载.png" alt=""-->
+<!--            /></el-button>-->
+<!--          </el-tooltip>-->
           <el-tooltip content="分享" placement="top">
             <el-button
               type="primary"
               color="#3F3F3F"
-              @click="shareDialogVisible = true"
+              @click="shareDialogVisible = true;this.showdid=scope.row.id;this.dauthor=scope.row.author;share()"
               ><img src="../img/分享.png" alt=""
             /></el-button>
           </el-tooltip>
-          <el-tooltip content="编辑历史" placement="top">
-            <el-button type="primary" color="#3F3F3F" @click="drawer = true"
-              ><img src="../img/播放记录.png" alt=""
+          <el-tooltip content="团队管理" placement="top">
+            <el-button
+                type="primary"
+                color="#3F3F3F"
+                @click="teamDialogVisible = true;this.showdid=scope.row.id;this.dauthor=scope.row.author;share()"
+            ><img src="../img/创作.png" alt=""
             /></el-button>
           </el-tooltip>
+<!--          <el-tooltip content="编辑历史" placement="top">-->
+<!--            <el-button type="primary" color="#3F3F3F" @click="drawer = true"-->
+<!--              ><img src="../img/播放记录.png" alt=""-->
+<!--            /></el-button>-->
+<!--          </el-tooltip>-->
           <el-popconfirm
             title="您确定要删除这个文档吗"
             confirm-button-text="确定"
             cancel-button-text="取消"
-            @confirm="confirmEvent(scope.row)"
+            @confirm="deleteDoc(scope.row)"
           >
             <template #reference>
               <el-button type="primary" color="#3F3F3F"
@@ -102,22 +112,22 @@
     </el-table>
 
     <!-- 下载选项弹框 -->
-    <el-dialog
-      v-model="downloadDialogVisible"
-      title="下载选项"
-      width="30%"
-      :before-close="handleClose"
-    >
-      <span>选择文件类型balabal</span>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="downloadDialogVisible = false">取消下载</el-button>
-          <el-button type="primary" @click="downloadDialogVisible = false"
-            >开始下载</el-button
-          >
-        </span>
-      </template>
-    </el-dialog>
+<!--    <el-dialog-->
+<!--      v-model="downloadDialogVisible"-->
+<!--      title="下载选项"-->
+<!--      width="30%"-->
+<!--      :before-close="handleClose"-->
+<!--    >-->
+<!--      <span>选择文件类型balabal</span>-->
+<!--      <template #footer>-->
+<!--        <span class="dialog-footer">-->
+<!--          <el-button @click="downloadDialogVisible = false">取消下载</el-button>-->
+<!--          <el-button type="primary" @click="downloadDialogVisible = false"-->
+<!--            >开始下载</el-button-->
+<!--          >-->
+<!--        </span>-->
+<!--      </template>-->
+<!--    </el-dialog>-->
 
     <!-- 分享选项 -->
     <el-dialog
@@ -127,22 +137,22 @@
       :before-close="handleClose"
     >
       <el-divider />
-      <router-link to="">这里放分享链接</router-link>
+      <router-link to="">{{this.code}}</router-link>
       <el-divider />
+      <div v-for="user in shareUser">
+              <el-row>
+                <el-col :span="2"></el-col>
+                <el-col :span="10">{{user.username}}</el-col>
+                <el-col :span="10">{{user.userpower}}</el-col>
+<!--                <el-col :span="4"></el-col>-->
+              </el-row>
+        <el-divider border-style="dashed" />
+      </div>
+      <template #footer>
       <el-row>
-        <el-col :span="8">User1</el-col>
-        <el-col :span="8">edit&read</el-col>
-      </el-row>
-      <el-divider border-style="dashed" />
-      <el-row>
-        <el-col :span="8">User2</el-col>
-        <el-col :span="8">edit&read</el-col>
-      </el-row>
-      <el-divider />
-      <el-row>
-        <el-col :span="16"></el-col>
-        <el-col :span="8">
-          <el-select v-model="value" class="m-2" placeholder="选择分享对象">
+        <el-col :span="5"></el-col>
+        <el-col :span="5">
+          <el-select v-model="value" class="m-2" placeholder="选择分享权限">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -151,34 +161,57 @@
             />
           </el-select>
         </el-col>
-      </el-row>
-      <template #footer>
+        <el-col :span="5"></el-col>
         <span class="dialog-footer">
-          <el-button @click="shareDialogVisible = false">可以编辑</el-button>
-          <el-button type="primary" @click="shareDialogVisible = false"
-            >分享</el-button
-          >
+<!--          <el-button @click="shareDialogVisible = false">可以编辑</el-button>-->
+          <el-button type="primary" @click="getInvatationCode()">生成邀请码</el-button>
         </span>
+      </el-row>
       </template>
+      <br />
     </el-dialog>
 
-    <!-- 历史记录抽屉 -->
-    <el-drawer v-model="drawer" title="编辑历史" :before-close="handleClose">
-      <!-- 插了个描述列表在这里，具体怎么与后端通信写数据暂未实现 -->
-      <el-card shadow="hover">
-        <el-descriptions title="User Info" column="1">
-          <el-descriptions-item label="Username"
-            >kooriookami</el-descriptions-item
+<!--团队管理-->
+    <el-dialog
+        v-model="teamDialogVisible"
+        title="团队管理"
+        width="50%"
+        :before-close="handleClose"
+    >
+      <el-divider />
+      <div v-for="user in shareUser">
+        <el-row>
+          <el-col :span="7">{{user.username}}</el-col>
+          <el-col :span="7">{{user.userpower}}</el-col>
+          <el-popconfirm
+              title="您确定要修改此成员的权限?"
+              confirm-button-text="确定"
+              cancel-button-text="取消"
+              @confirm="changePower(user.userId)"
           >
-          <el-descriptions-item label="Telephone"
-            >18100000000</el-descriptions-item
-          >
-          <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
-        </el-descriptions>
-      </el-card>
-      <el-card shadow="hover"> Hover </el-card>
-      <el-card shadow="hover"> Hover </el-card>
-    </el-drawer>
+            <template #reference>
+              <el-button type="primary" color="#3F3F3F"
+                         :disabled="(this.dauthor==this.user.name)&&(this.dauthor==user.username)"
+              ><img src="../img/创作.png" alt=""
+              /></el-button>
+            </template>
+          </el-popconfirm>
+          <el-col :span="1"></el-col>
+          <el-tooltip content="删除成员" placement="top">
+            <el-button
+                type="primary"
+                color="#3F3F3F"
+                @click="deleteUser(user.userId)"
+                :disabled="(this.dauthor==this.user.name)&&(this.dauthor==user.username)"
+            ><img src="../img/删除.png" alt=""
+            /></el-button>
+          </el-tooltip>
+        </el-row>
+        <el-divider />
+      </div>
+      <br />
+    </el-dialog>
+
   </div>
 </template>
 
@@ -197,45 +230,59 @@ export default {
       },
       input: "",
       shareInput: "",
-      value: "",
+      value: null,
       drawer: false,
       downloadDialogVisible: false,
       shareDialogVisible: false,
-      showData: [
-        
+      teamDialogVisible: false,
+      showdid:0,
+      dauthor:"",
+      DocData: [
+        // {
+        //   id: 1, name: "item.name", author: "You",type:"text", time: "just now"
+        // },
+        // {
+        //   id: 2, name: "item.name", author: "papa",type:"excel", time: "just now"
+        // },
+        // {
+        //   id: 3, name: "item.name", author: "papa",type:"report template", time: "just now"
+        // },
+        // {
+        //   id: 4, name: "item.name", author: "papa",type:"resume template", time: "just now"
+        // }
       ],
+      ShowData:[
+      ],
+      tmp:[],
       options: [
         {
-          value: "Option1",
-          label: "Option1",
+          value: 1,
+          label: "Edit",
         },
         {
-          value: "Option2",
-          label: "Option2",
-        },
-        {
-          value: "Option3",
-          label: "Option3",
-        },
-        {
-          value: "Option4",
-          label: "Option4",
-        },
-        {
-          value: "Option5",
-          label: "Option5",
+          value: 2,
+          label: "Read",
         },
       ],
-      // projects:[
-      //   {
-      //     id:3,
-      //     name:"233333",
-      //   },
-      //   {
-      //     id:4,
-      //     name:"help!!!",
-      //   }
-      // ]
+      shareUser:[
+        // {
+        //   userId:1,
+        //   username:"User1",
+        //   userpower:"Edit",
+        // },
+        // {
+        //   userId: 2,
+        //   username: "User2",
+        //   userpower: "Read",
+        // },
+        // {
+        //   userId: 3,
+        //   username: "papa",
+        //   userpower: "Creator",
+        // },
+      ],
+      sourceString:"431EYZDOWGVJ5AQMSFCU2TBIRPN796XH0KL",
+      code:""
     };
   },
   created() {
@@ -252,7 +299,7 @@ export default {
       }
     }).then(res => {
       res.data.forEach(item => {
-        this.showData.push({id: item.id, name: item.name, author: "You", time: "just now"});
+        this.DocData.push({id: item.id, name: item.name, author: item.author, type: item.type,time: "just now"});
       })
     }).catch(err => {
       console.log(err);
@@ -263,27 +310,152 @@ export default {
       // //   vmson.$on("addDocument",(val)=>{
       // //   console.log(val);
       // // })
+    this.ShowData=this.DocData;
     },
   // },
   methods:{
-    getHref(val){
-      return '/Pages?docid='+val;
+    getHref(val, val2,type){
+      if(type=="text") {
+        return '/Pages?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
+      }
+      if(type=="excel"){
+          return '/Excel?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
+      }
+      if(type=="report template"){
+        return '/CovLetter?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
+      }
+      if(type=="resume template"){
+        return '/Resume?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
+      }
     },
     fresh(){
       // console.log(this.showData);
-      this.showData=[];
+      this.DocData=[];
       instance.get('/getDocList', {
         params: {
           userId: this.user.id,
         }
       }).then(res => {
         res.data.forEach(item => {
-          this.showData.push({id: item.id, name: item.name, author: "You", time: "just now"});
+          this.DocData.push({id: item.id, name: item.name, author: item.author,type: item.type, time: "just now"});
         })
       }).catch(err => {
         console.log(err);
       })
-    }
+      this.ShowData=this.DocData;
+    },
+    share(){
+      this.shareUser=[];
+      instance.get('/getUsers',{
+        params:{
+          documentId:this.showdid
+        }
+      }).then(res=>{
+        res.data.forEach(item =>{
+          this.shareUser.push({userId:item.userId,username:item.name, userpower: item.power});
+        })
+      }).catch(err =>{
+        console.log(err);
+      })
+    },
+    getInvatationCode(){
+      this.code="";
+      let num=this.showdid*10+this.value;
+      console.log(num);
+      // let pow=this.value;
+      while (num>0) {
+        let mod = num % 35;
+        // console.log(mod);
+        num = (num - mod) / 35;
+        // console.log(num);
+        this.code = this.sourceString.substring(mod,mod+1) + this.code;
+        // console.log(this.code);
+      };
+      // console.log(this.code);
+      this.code = '88888888' + this.code;//长度不足8，前面补全
+      this.code = this.code.slice(this.code.length - 8,this.code.length);//截取最后8位字符串
+    },
+    allDoc(){
+      this.ShowData=this.DocData;
+    },
+    createdDoc(){
+      this.ShowData=[];
+      this.DocData.forEach(item=>{
+        if(item.author==this.user.name){
+          this.ShowData.push(item);
+        }
+      })
+    },
+    sharedDoc(){
+      this.ShowData=[];
+      this.DocData.forEach(item=>{
+        if(item.author!=this.user.name){
+          this.ShowData.push(item);
+        }
+      })
+    },
+    deleteDoc(Doc){
+      instance.post('/deleteDocument',null,{
+        params:{
+          docId:Doc.id
+        }
+      }).then(res=>{
+        if(res.data){
+          this.$options.methods.fresh.bind(this)();
+        }
+      }).catch(err =>{
+        console.log(err);
+      })
+    },
+    changePower(uid){
+      // console.log(uid);
+      instance.post('/changePower',null,{
+        params:{
+          userName:uid,
+          documentId:this.showdid
+        }
+      }).then(res =>{
+        if(res.data){
+          this.$options.methods.share.bind(this)();
+        }else{
+          this.$message.error("修改成员权限失败")
+        }
+      }).catch(err =>{
+        console.log(err);
+      })
+    },
+    deleteUser(uid){
+      instance.post('/deleteUser',null,{
+        params:{
+          userId:uid,
+          documentId:this.showdid
+        }
+      }).then(res =>{
+        if(res.data){
+          this.$options.methods.share.bind(this)();
+        }else{
+          this.$message.error("删除成员失败")
+        }
+      }).catch(err =>{
+        console.log(err);
+      })
+    },
+    //   搜索实现
+    searchnow() {
+      let searchitem = [];
+      this.tmp=this.ShowData;
+      var temp = String(this.input).toUpperCase();
+      this.ShowData.forEach(function (item) {
+        if (String(item.name).toUpperCase().indexOf(temp) > -1) {
+          searchitem.push(item);
+        }
+      });
+      this.ShowData = JSON.parse(JSON.stringify(searchitem));
+    },
+    recoverdata(){
+      if(this.input=="")
+        this.ShowData =  this.tmp;
+    },
   }
 };
 

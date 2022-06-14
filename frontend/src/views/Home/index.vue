@@ -2,7 +2,10 @@
   <div>
     <Header />
     <el-container class="main">
-      <Sidebar @save="save"></Sidebar>
+      <Sidebar @add="add"
+               @allDoc="allDoc"
+               @createdDoc="createdDoc"
+               @sharedDoc="sharedDoc"></Sidebar>
         <el-main class="content">
       <List ref="listContainer"/>
         </el-main>
@@ -30,13 +33,18 @@ export default {
   //   console.log(this.$route.params);
   // }
   methods: {
-
-    save(){
-
+    add(){
       this.$refs.listContainer.fresh();
-
-    }
-
+    },
+    allDoc(){
+      this.$refs.listContainer.allDoc();
+    },
+    createdDoc(){
+      this.$refs.listContainer.createdDoc();
+    },
+    sharedDoc(){
+      this.$refs.listContainer.sharedDoc();
+    },
   }
 };
 </script>

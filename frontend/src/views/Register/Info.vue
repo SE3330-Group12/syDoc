@@ -3,8 +3,8 @@
     <div class="intro">
       <ul class='info'>
         <li>
-          <input type="text" id='name' placeholder="用户名" @blur="usenameDuplicate">
-          <div v-show="useshow"><p type="text" style="color: white">该用户名已被使用 </p></div>
+          <input type="text"  id='name' placeholder="用户名" @blur="usenameDuplicate">
+<!--          <div v-show="useshow"><p type="text" style="color: white">该用户名已被使用 </p></div>-->
         </li>
         <li>
           <input type="email" id='email' placeholder="电子邮件">
@@ -14,13 +14,13 @@
         </li>
         <li>
           <input type="password" id='SecPass' placeholder="再次确认密码" @blur="secpass">
-          <div v-show="passshow"><p type="text" style="color: white">两次密码不同 </p></div>
+<!--          <div v-show="passshow"><p type="text" style="color: white">两次密码不同 </p></div>-->
         </li>
       </ul>
-      <button id='btn' @click="register">创建账户</button>
+      <button id='btn' style="margin: auto" @click="register">创建账户</button>
       <router-link :to="{name:'Login'}"><a>Already have an account? Click here to Log In</a></router-link>
-      <div v-show="successShow"><p type="text" style="color: white">注册成功!</p></div>
-      <div v-show="failShow"><p type="text" style="color: white">注册失败!</p></div>
+<!--      <div v-show="successShow"><p type="text" style="color: white">注册成功!</p></div>-->
+<!--      <div v-show="failShow"><p type="text" style="color: white">注册失败!</p></div>-->
     </div>
   </div>
   <router-view></router-view>
@@ -31,10 +31,10 @@ import {instance} from "@/axios/axios";
 export default {
   data(){
     return{
-      useshow:false,
-      passshow:false,
-      successShow:false,
-      failShow:false,
+      // useshow:false,
+      // passshow:false,
+      // successShow:false,
+      // failShow:false,
     }
   },
   methods:{
@@ -45,7 +45,9 @@ export default {
           name:usename
         }
       }).then(res=>{
-        this.useshow=!res.data;
+        if(res.data)
+          this.$message.error('该用户名已被使用');
+        // this.useshow=!res.data;
       }).catch(err=>{
         console.log(err);
       })
@@ -53,7 +55,9 @@ export default {
     secpass(){
       let oldpass=document.getElementById('password').value;
       let newpass=document.getElementById('SecPass').value;
-      this.passshow=!(newpass==oldpass);
+      // this.passshow=!(newpass==oldpass);
+      if(newpass!=oldpass)
+        this.$message.error('两次密码不同');
     },
     register(){
       var usn=document.getElementById('name').value;
@@ -69,22 +73,48 @@ export default {
           }
         }).then(res=>{
           if(res.data){
-            this.useshow=false;
-            this.passshow=false;
-            this.failShow=false;
-            this.successShow=true;
+            // this.useshow=false;
+            // this.passshow=false;
+            // this.failShow=false;
+            // this.successShow=true;
+            this.$message({
+              message: '注册成功!',
+              type: 'success'
+            });
+            this.$router.push({
+              path:'/Login',
+              query: {
+                username:usn,
+              }
+            })
           }
           else{
-            this.successShow=false;
-            this.failShow=true;
+            // this.successShow=false;
+            // this.failShow=true;
+            this.$message.error('注册失败!');
           }
           // console.log(res.data);
         }).catch(err=>{
           console.log(err);
         })
       }
-      else this.passshow=true;
+      else
+        // this.passshow=true;
+        this.$message.error('两次密码不同');
     }
+    // register(){
+    //   var usn=document.getElementById('name').value;
+    //   this.$message({
+    //               message: '注册成功!',
+    //               type: 'success'
+    //             });
+    //   this.$router.push({
+    //     path:'/Login',
+    //     query: {
+    //       username:usn,
+    //     }
+    //   })
+    // }
   }
 }
 </script>
@@ -156,7 +186,7 @@ textarea {
     border: none;
     cursor: pointer;
     display: block;
-    margin: 30px, 0px;
+    margin: 30px 0px;
 }
 a{
   position: relative;

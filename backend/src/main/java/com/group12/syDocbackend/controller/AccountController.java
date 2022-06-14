@@ -5,7 +5,6 @@ import com.group12.syDocbackend.entity.Document;
 import com.group12.syDocbackend.service.AccountService;
 import com.group12.syDocbackend.service.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -16,18 +15,19 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-public class Controller {
+public class AccountController {
     @Autowired
     private AccountService accountService;
 
     @Autowired
     private DocumentService documentService;
-    @RequestMapping("/load")
-    public Object load() throws IOException {
-        byte[] bytes = Files.readAllBytes(Paths.get("./def.json"));
-        System.out.println("load sheet");
-        return new String(bytes);
+
+    @RequestMapping  ("/getAccount")
+    public Account getAccount(@RequestParam("accountID") int accountId){
+        System.out.println("getAccount--"+accountId);
+        return accountService.getAccount(accountId);
     }
+
     @RequestMapping  ("/checkAccount")
     public Account checkAccount(@RequestParam("name") String username, @RequestParam("password") String password){
         System.out.println("chackAccount!");
@@ -38,8 +38,8 @@ public class Controller {
     public boolean checkDup(@RequestParam("name") String username){
         System.out.println("chackDup!");
         if(accountService.checkDup(username))
-            return true;
-        else return false;
+            return false;
+        else return true;
     }
 
     @RequestMapping("/addAccount")
@@ -49,31 +49,27 @@ public class Controller {
     }
 
     @RequestMapping("/getDocList")
-    public List<Map> getDocList(@RequestParam("userId")String userId){
+    public List<Map> getDocList(@RequestParam("userId")int userId){
         System.out.println("getDocList!");
-        int id=Integer.valueOf(userId);
-        return accountService.getDocList(id);
+        return documentService.getDocList(userId);
     }
 
     @RequestMapping("/invite")
-    public Account invite(@RequestParam("userId")String userId, @RequestParam("docId")String docId){
+    public Account invite(@RequestParam("userId")int userId, @RequestParam("docId")int docId,@RequestParam("userPower")int userPower){
         System.out.println("invited!");
-        int id=Integer.valueOf(userId);
-        int did = Integer.valueOf(docId);
-        return accountService.invite(id,did);
+        return accountService.invite(userId,docId,userPower);
     }
 
     @RequestMapping("/addDocument")
-    public Document addDocument( @RequestParam("userId")String userId,@RequestParam("docName")String docName){
+    public Document addDocument( @RequestParam("userId")int userId,@RequestParam("docName")String docName,@RequestParam("type")String doctype){
         System.out.println("addDocument!");
-        int id=Integer.valueOf(userId);
-        return documentService.addDocument(id,docName);
+        return documentService.addDocument(userId,docName,doctype);
     }
 
     @RequestMapping("/deleteDocument")
-    public boolean deleteDocument(@RequestParam("docId")String docId){
-        System.out.println("deleteDoc!");
-        int id=Integer.valueOf(docId);
+    public boolean deleteDocument(@RequestParam("docId")int docId){
+        System.out.println("deleteDoc: "+docId);
+        documentService.deleteDocument(docId);
         return true;
     }
 

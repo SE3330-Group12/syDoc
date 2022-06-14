@@ -1,32 +1,34 @@
 <template>
     <div class="bg_intro">
       <div class="intro">
-        <ul class="info">
+        <ul class="info" >
           <li>
-            <input type="text" id="name" placeholder="用户名" @keyup="checkusernull"/>
+            <input type="text" id="name" v-model="usname" placeholder="用户名" @blur="checkusernull"/>
 <!--              <el-input v-model="input" type="text" placeholder="用户名" @blur="checkusernull"/>-->
           </li>
           <!-- <li>
           <input type="email" id='email' placeholder="电子邮件">
         </li> -->
           <li>
-            <input type="password" id="password" placeholder="密码" @keyup="checkpasswordnull"/>
+            <input type="password" id="password" placeholder="密码" @blur="checkpasswordnull"/>
           </li>
           <!-- <li>
           <input type="password" id='SecPass' placeholder="再次确认密码">
         </li> -->
+          <button id="btn" @click="login()" style="margin: 0 auto;width: 20vw ">登 &nbsp;&nbsp; 录</button>
+          <br />
+          <router-link :to="{ name: 'Register' }" style="margin: auto">
+            <h style="text-align: center;">No account? Click here to Register</h>
+          </router-link>
+          <br />
         </ul>
 <!--        <router-link :to="{ name: 'home' }"-->
 <!--          ><button id="btn">登 &nbsp;&nbsp; 录</button>-->
 <!--        </router-link>-->
-        <button id="btn" @click="login()">登 &nbsp;&nbsp; 录</button>
-        <router-link :to="{ name: 'Register' }"
-          ><a>No account? Click here to Register</a></router-link
-        >
-        <br />
-        <div v-show="usshow"><p type="text" style="color: white">用户名不能为空</p></div>
-        <div v-show="passshow"><p type="text" style="color: white">密码不能为空</p></div>
-        <div v-show="passwrong"><p type="text" style="color: white">用户名或密码错误！</p></div>
+
+<!--        <div v-show="usshow"><p type="text" style="color: white">用户名不能为空</p></div>-->
+<!--        <div v-show="passshow"><p type="text" style="color: white">密码不能为空</p></div>-->
+<!--        <div v-show="passwrong"><p type="text" style="color: white">用户名或密码错误！</p></div>-->
       </div>  
     </div>
     <!-- <router-view></router-view> -->
@@ -39,29 +41,44 @@ import {instance} from "@/axios/axios";
 export default {
   data(){
     return {
-      usshow: false,
-      passshow: false,
-      passwrong:false,
+      // usshow: false,
+      // passshow: false,
+      // passwrong:false,
       input:"",
+      usname:this.$route.query.username,
     }
   },
   methods:{
     login() {
-      let usname = document.getElementById('name').value;
+      // let usname = document.getElementById('name').value;
       let password = document.getElementById('password').value;
-      this.usshow = (usname == "");
-      this.passshow = (password == "");
-      if (usname != "" || password != "") {
+      // this.usshow = (usname == "");
+      // this.passshow = (password == "");
+      if(this.usname=="") this.checkusernull();
+      if(password=="") {
+        setTimeout(()=>{
+          this.checkpasswordnull();
+        },1);
+      }
+      if (this.usname != "" || password != "") {
         instance.get('/checkAccount', {
           params: {
-            name: usname,
+            name: this.usname,
             password: password,
           }
         }).then(res => {
-          if (res.data == "") this.passwrong = true;
+          if (res.data == "") {
+            setTimeout(()=>{
+              this.$message({
+                showClose: true,
+                message: '用户名或密码错误',
+                type: 'error'
+              });
+            },1);
+          }
           else {
             this.$router.push({
-              path:'/home',
+              path:'/Home',
               query: {
                 accountid: res.data.accountId,
                 usename: res.data.name,
@@ -83,12 +100,24 @@ export default {
       }
     },
     checkusernull(){
-      let usname = document.getElementById('name').value;
-      this.usshow = (usname == "");
+      // let usname = document.getElementById('name').value;
+      if(this.usname==""){
+        this.$message({
+          showClose: true,
+          message: '用户名不能为空',
+          type: 'error'
+        });
+      }
     },
     checkpasswordnull(){
       let password = document.getElementById('password').value;
-      this.passshow = (password == "");
+      if(password==""){
+        this.$message({
+          showClose: true,
+          message: '密码不能为空',
+          type: 'error'
+        });
+      }
     }
   }
   // setup () {

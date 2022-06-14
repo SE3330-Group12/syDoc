@@ -40,6 +40,30 @@ const routes = [
             import ('../views/Pages'),
     },
     {
+        path: "/Personal",
+        name: "Personal Center",
+        component: () =>
+            import ('../views/Personal Center'),
+    },
+    {
+        path:'/CovLetter',
+        name:"CovLetterTemplate",
+        component: () =>
+            import('../views/CovLetterTemplate'),
+    },
+    {
+        path:'/Resume',
+        name:"ResumeTemplate",
+        component: () =>
+            import('../views/ResumeTemplate'),
+    },
+    {
+        path: '/Excel',
+        name:"ExcelPage",
+        component: () =>
+            import('../views/ExcelPage'),
+    },
+    {
         path: '/',
         redirect: '/Login',
     }

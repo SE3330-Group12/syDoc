@@ -17,6 +17,11 @@ public class AccountServiceImpl implements AccountService {
     private AccountDao accountDao;
 
     @Override
+    public Account getAccount(int accountId){
+        return accountDao.getAccount(accountId);
+    }
+
+    @Override
     public Account checkAccount (String username,String password)
     {
         Account temp = accountDao.checkAccount(username,password);
@@ -30,14 +35,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Map> getDocList(int userId){
-        return accountDao.getDocList(userId);
-    }
-
-    @Override
-    public Account invite(int userId,int docId)
+    public Account invite(int userId,int docId,int userPower)
     {
-        return accountDao.invite(userId,docId);
+        return accountDao.invite(userId,docId,userPower);
     }
 
     @Override
