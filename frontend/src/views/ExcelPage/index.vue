@@ -70,7 +70,12 @@ export default {
         // },
         cellUpdateBefore:function(){
           if(!this.permission){
-            console.log("permission denied!");
+            // console.log("permission denied!");
+            this.$message({
+              showClose: true,
+              message: 'permission denied!',
+              type: 'error'
+            });
             return false;
           }
           return true;
