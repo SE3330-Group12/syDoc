@@ -1,8 +1,10 @@
-const useWebsockt = (docId, handleMessage) => {
+const useWebsockt = (docId,docType,username,handleMessage) => {
     const BASE_URL = 'localhost';
     const WS_PORT = '8081';
     const DOC_ID = docId;
-    const WS_ADDRESS = `ws://${BASE_URL}:${WS_PORT}/?name=${DOC_ID}`;
+    const DOC_TYPE=docType;
+    const USERNAME=username;
+    const WS_ADDRESS = `ws://${BASE_URL}:${WS_PORT}/?docId=${DOC_ID}&docType=${DOC_TYPE}&username=${USERNAME}`;
     console.log("address", WS_ADDRESS)
     const ws = new WebSocket(WS_ADDRESS);
     /* const ws = new WebSocket("ws://localhost:8080"); */
