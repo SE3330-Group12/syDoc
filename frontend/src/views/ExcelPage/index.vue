@@ -30,6 +30,7 @@ export default {
       selected:"",
       isMaskShow: false,
       title:"sheet_title",
+      permission:false
     }
 
   },
@@ -39,7 +40,7 @@ export default {
       allowUpdate: true,
       title:this.title,
       loadUrl:"http://localhost:8082/load",
-      // hook:{
+      hook:{
       //     updated:function(e){
       //         //监听更新,并在3s后自动保存
       //         if(autoSave) clearTimeout(autoSave)
@@ -57,7 +58,24 @@ export default {
       //         },3 * 1000)
       //         return true;
       //     }
-      // },
+        // cellEditBefore: function (range) {
+        //     let r = range[0].row[0];
+        //     let c = range[0].column[0];
+        //     // let res = that.lock(r, c);
+        //     // console.log(res);
+        //     if(!this.permission){
+        //       // console.log("permission denied!");
+        //       window.luckysheet.exitEditMode(r,c);
+        //     };
+        // },
+        cellUpdateBefore:function(){
+          if(!this.permission){
+            console.log("permission denied!");
+            return false;
+          }
+          return true;
+        },
+      },
       updateUrl: "ws://localhost:8083/?docId=10&docType=sheet&username=nzy"
     }
 
