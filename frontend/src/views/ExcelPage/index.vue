@@ -39,7 +39,7 @@ export default {
       container: 'luckysheet',
       allowUpdate: true,
       title:this.title,
-      loadUrl:"http://localhost:8082/load",
+      loadUrl:"http://106.15.196.126:8080/load",
       hook:{
       //     updated:function(e){
       //         //监听更新,并在3s后自动保存
@@ -81,7 +81,7 @@ export default {
           return true;
         },
       },
-      updateUrl: "ws://localhost:8083/?docId=10&docType=sheet&username=nzy"
+      updateUrl: 'ws://106.15.196.126:8081/?docId='+this.$route.query.docid+'&docType=sheet&username='+this.$route.query.username
     }
 
     $(function () {
