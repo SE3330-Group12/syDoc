@@ -1,6 +1,8 @@
 <template>
   <div>
     <Header></Header>
+    <div id = 'model'>
+      <p>当前模式： {{model}}</p></div>
     <QuillEditor
       id="editorId"
       ref="myQuillEditor"
@@ -65,9 +67,13 @@ export default {
       text: "",
       count: 0,
       delta: 0,
+      model:"",
     });
 
-    const ws = useWebSocket(docId, handleMessage);
+    //const ws = useWebSocket(docId, handleMessage);
+    var username="nzy";
+    var docType="doc";
+    const ws = useWebSocket(docId,docType,username,handleMessage);
 
     function handleMessage(e) {
       let quill = toRaw(myQuillEditor.value).getQuill();
@@ -174,10 +180,12 @@ export default {
           
         })
         .then((res) => {
-          console.log('res',res.data);
-          //permission = res.data; 
           if(res.data == 2) {
             quill.enable(false);
+            state.model = "阅读模式";
+          }
+          else {
+            state.model = "编辑模式";
           }
         })
         .catch((err) => {
@@ -249,4 +257,11 @@ export default {
 </script>
 
 <style scoped>
+#model {
+  height: 40px;
+}
+p {
+  width: 200px;
+  font: bold;
+}
 </style>
