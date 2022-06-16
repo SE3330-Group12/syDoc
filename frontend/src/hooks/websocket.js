@@ -1,5 +1,5 @@
 const useWebsockt = (docId,docType,username,handleMessage) => {
-    const BASE_URL = 'localhost';
+    const BASE_URL = '106.15.196.126';
     const WS_PORT = '8081';
     const DOC_ID = docId;
     const DOC_TYPE=docType;
@@ -22,10 +22,13 @@ const useWebsockt = (docId,docType,username,handleMessage) => {
 
     function handleClose(e) {
         console.log('WebSocket close', e);
+        console.log("websocket close!!!!!!!!!!!!!");
     }
 
     function handleError(e) {
         console.log('WebSocket error', e);
+        console.log("websocket error!!!!!!!!!!!!!");
+
     }
 
     init();

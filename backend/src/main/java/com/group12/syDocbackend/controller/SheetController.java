@@ -18,4 +18,9 @@ public class SheetController
         System.out.println("load sheet");
         return new String(bytes);
     }
+
+    @RequestMapping("/heartbeat")
+    public Boolean heartbeat(){
+        return true;
+    }
 }
