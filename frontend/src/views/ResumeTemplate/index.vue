@@ -68,7 +68,10 @@ export default {
       model:"",
     });
 
-    const ws = useWebSocket(docId, handleMessage);
+    var username="nzy";
+    var docType="doc";
+    const ws = useWebSocket(docId,docType,username,handleMessage);
+    //const ws = useWebSocket(docId, handleMessage);
 
     function handleMessage(e) {
       let quill = toRaw(myQuillEditor.value).getQuill();
