@@ -18,7 +18,7 @@
 <script>
 import LuckyExcel from 'luckyexcel'
 //导入库export.js 这个文件是es6的，不能在普通的HTML文件直接引入js文件（虽然都是js文件，但是有区别，具体请百度es6与es5）！需要把es6转es5才可以直接引入使用！
-import {testaaa,exportExcel} from './export'
+import {exportExcel} from './export'
 
 export default {
   name: 'HelloWorld',
@@ -70,13 +70,18 @@ export default {
         // },
         cellUpdateBefore:function(){
           if(!this.permission){
-            console.log("permission denied!");
+            // console.log("permission denied!");
+            this.$message({
+              showClose: true,
+              message: 'permission denied!',
+              type: 'error'
+            });
             return false;
           }
           return true;
         },
       },
-      updateUrl: "ws://106.15.196.126:8081/?docId=10&docType=sheet&username=nzy"
+      updateUrl: 'ws://106.15.196.126:8081/?docId='+this.$route.query.docid+'&docType=sheet&username='+this.$route.query.username
     }
 
     $(function () {

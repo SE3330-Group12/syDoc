@@ -319,7 +319,7 @@ export default {
         return '/Pages?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
       }
       if(type=="excel"){
-          return '/Excel?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
+          return '/Excel?docid='+val+'&docname='+val2+'&username='+this.$route.query.usename;
       }
       if(type=="report template"){
         return '/CovLetter?docid='+val+'&docname='+val2+'&userid='+this.$route.query.accountid;
