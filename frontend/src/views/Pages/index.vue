@@ -186,4 +186,11 @@ export default {
 </script>
 
 <style scoped>
+#model {
+  height: 40px;
+}
+p {
+  width: 200px;
+  font: bold;
+}
 </style>
