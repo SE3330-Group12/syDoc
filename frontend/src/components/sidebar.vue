@@ -280,7 +280,7 @@ export default {
           this.$emit("add");
         }
         else{
-          this.$message.error("该文档已删除");
+          this.$message.error("您已加入该项目或该文档已删除");
           this.code="";
         }
       }).catch(err=>{
