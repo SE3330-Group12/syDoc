@@ -19,6 +19,7 @@
 import LuckyExcel from 'luckyexcel'
 //导入库export.js 这个文件是es6的，不能在普通的HTML文件直接引入js文件（虽然都是js文件，但是有区别，具体请百度es6与es5）！需要把es6转es5才可以直接引入使用！
 import {exportExcel} from './export'
+import {instance} from "@/axios/axios";
 
 export default {
   name: 'HelloWorld',
@@ -29,12 +30,29 @@ export default {
     return {
       selected:"",
       isMaskShow: false,
-      title:"sheet_title",
+      title:this.$route.query.docname,
       permission:false
     }
 
   },
+  created(){
+    
+  },
   mounted() {
+    let p = this.permission;
+    instance.get('/getPermissionByName',{
+      params:{
+        docid:this.$route.query.docid,
+        username:this.$route.query.username
+      }
+    }).then(res=>{
+      console.log(res.data);
+      p=res.data;
+      console.log(p);
+    }).catch(err=>{
+      console.log(err);
+    });
+    
     var options = {
       container: 'luckysheet',
       allowUpdate: true,
@@ -68,8 +86,10 @@ export default {
         //       window.luckysheet.exitEditMode(r,c);
         //     };
         // },
+        
         cellUpdateBefore:function(){
-          if(!this.permission){
+          if(!p){
+            console.log(p);
             alert("permission denied!");
             return false;
           }
