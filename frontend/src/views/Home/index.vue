@@ -51,14 +51,14 @@ export default {
 
 <style scoped>
 .footer {
-  background-color: #a2a2a298;
+  background-color: #92A4BD;
   position: fixed;
   bottom: 0px;
-  height: 8vh;
+  height: 5vh;
   width: 100%;
 }
 .main {
-  height: 83.5vh;
+  height: 86.5vh;
   width: 100%;
 }
 .side{

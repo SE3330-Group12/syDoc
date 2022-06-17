@@ -12,45 +12,6 @@
     <!-- <el-button type="primary" @click="addBooks">添加</el-button> -->
   </div>
 
-  <!-- 添加商品对话框
-  <el-dialog v-model="dialogFormVisible" title="请录入书籍信息">
-    <el-form :model="form" :rules="rules">
-      <el-form-item label="封面:" :label-width="formLabelWidth">
-        <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          multiple
-          :limit="1"
-          :file-list="fileList"
-        >
-          <el-button type="primary">上传封面</el-button>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="书名:" :label-width="formLabelWidth">
-        <el-input v-model="form.bookName" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="作者:" :label-width="formLabelWidth">
-        <el-input v-model="form.bookAuthor" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="ISBN编号:" :label-width="formLabelWidth">
-        <el-input v-model="form.bookISBN" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="库存:" :label-width="formLabelWidth">
-        <el-input v-model="form.bookSurplus" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="单价:" :label-width="formLabelWidth">
-        <el-input v-model="form.bookPrice" autocomplete="off" />
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleAdd">确定</el-button>
-      </span>
-    </template>
-  </el-dialog> -->
-
   <!-- 显示数据主体 -->
   <div class="booklist">
     <el-table :data="ShowData" border>
@@ -61,9 +22,8 @@
           <a :href="getHref(scope.row.id, scope.row.name,scope.row.type)">{{ scope.row.name }}</a>
         </template>
       </el-table-column>
-      <el-table-column prop="author" label="创建者" width="160" />
-      <el-table-column prop="type" label="类型" width="160" />
-      <el-table-column prop="time" label="最后修改时间" width="250" sortable />
+      <el-table-column prop="author" label="创建者" width="200" />
+      <el-table-column prop="type" label="类型" width="200" />
       <el-table-column label="操作">
         <template #default="scope">
 <!--          <el-tooltip content="下载" placement="top">-->
@@ -110,24 +70,6 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <!-- 下载选项弹框 -->
-<!--    <el-dialog-->
-<!--      v-model="downloadDialogVisible"-->
-<!--      title="下载选项"-->
-<!--      width="30%"-->
-<!--      :before-close="handleClose"-->
-<!--    >-->
-<!--      <span>选择文件类型balabal</span>-->
-<!--      <template #footer>-->
-<!--        <span class="dialog-footer">-->
-<!--          <el-button @click="downloadDialogVisible = false">取消下载</el-button>-->
-<!--          <el-button type="primary" @click="downloadDialogVisible = false"-->
-<!--            >开始下载</el-button-->
-<!--          >-->
-<!--        </span>-->
-<!--      </template>-->
-<!--    </el-dialog>-->
 
     <!-- 分享选项 -->
     <el-dialog

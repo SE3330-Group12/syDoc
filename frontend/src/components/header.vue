@@ -7,8 +7,8 @@
         </el-col>
         <el-col :span="11"></el-col>
         <el-col :span="5">
-          <el-button type="plain" size="small" round class="mybutton">帮助</el-button>
-          <el-button type="plain" size="small" round class="mybutton">项目</el-button>
+        <el-button type="plain" size="small" round class="mybutton" @click="toHelp">帮助</el-button>
+          <el-button type="plain" size="small" round class="mybutton" @click="toHome">项目</el-button>
           <router-link :to="{path:'/Personal',query:{accountid:this.aId}}">
           <el-button type="plain" size="small" round class="mybutton">账户</el-button>
           </router-link>
@@ -21,10 +21,33 @@
 export default {
   data(){
     return {
+      username:this.$route.query.username,
       aId:this.$route.query.accountid,
     }
   },
   methods: {
+    toHome(){
+            let user = JSON.parse(localStorage.getItem('user'));
+            this.$router.push({
+              path:'/Home',
+              query: {
+                accountid: user.accountId,
+                usename: user.name,
+                // projects:res.data.projects
+              }
+    })
+    },
+    toHelp(){
+            let user = JSON.parse(localStorage.getItem('user'));
+            this.$router.push({
+              path:'/Help',
+              query: {
+                accountid: user.accountId,
+                usename: user.name,
+                // projects:res.data.projects
+              }
+    })
+    },
     // person(){
     //   this.$router.push({
     //     path:'/Personal',
@@ -40,7 +63,7 @@ export default {
 
 <style scoped>
 .myheader{
-  background-color:#000000;
+  background-color:#68A5FF;
   height:8.5vh;
   width: 100%;
   margin: 0;
