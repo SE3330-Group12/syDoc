@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id = 'model'>
-      <p>当前模式： {{model}}</p></div>
+      <p>{{docName}} ({{model}})</p></div>
     <QuillEditor
       id="editorId"
       ref="myQuillEditor"
@@ -92,6 +92,7 @@ export default {
       count: 0,
       delta: 0,
       model:"",
+      docName:"",
     });
 
     //const ws = useWebSocket(docId, handleMessage);
@@ -126,6 +127,7 @@ export default {
       console.log("Editor ready.", e);
 
       let quill = toRaw(myQuillEditor.value).getQuill();
+      state.docName = docName;
       let delta = {
         
     "ops": [
