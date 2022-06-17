@@ -64,7 +64,6 @@
           >
             <template #reference>
               <el-button type="primary" color="#3F3F3F"
-                         :disabled="scope.row.author!=this.user.name"
                 ><img src="../img/删除.png" alt=""
               /></el-button>
             </template>
