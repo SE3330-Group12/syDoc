@@ -49,6 +49,30 @@ const toolbarOptions = [
 ];
 
 export default {
+  created(){
+    setInterval(()=>{
+      setTimeout(()=>{
+        instance.get('/heartbeat')
+            .then(res=>{
+              if(res.data&&this.isfresh){
+                //fresh
+                location.reload();
+                this.isfresh=false;
+                console.log(this.isfresh)
+              }
+            }).catch(err=>{
+          //box out
+          if(!this.isfresh)
+          {
+            // console.log(this.isfresh);
+            alert("Network connection error!");
+            this.isfresh=true;
+          }
+          console.log(err)
+        })
+      },0)
+    },1000)//1 s
+  },
   props: {
     getContent: { type: String, default: "" },
   },
@@ -162,7 +186,19 @@ export default {
     };
   },
 
-  methods: {},
+  methods: {
+    // weberror() {
+    //   this.$alert('网络连接异常，请检查网络后重试', '网络错误', {
+    //     confirmButtonText: '确定',
+    //     callback: action => {
+    //       this.$message({
+    //         type: 'info',
+    //         message: `action: ${ action }`
+    //       });
+    //     }
+    //   });
+    // }
+  },
 
   components: {
     Header,
@@ -179,6 +215,7 @@ export default {
         },
         placeholder: "Start here....",
       },
+      isfresh:false,
     };
   },
 };
