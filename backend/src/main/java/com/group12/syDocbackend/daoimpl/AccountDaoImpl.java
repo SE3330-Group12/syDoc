@@ -65,6 +65,7 @@ public class AccountDaoImpl implements AccountDao {
         Account acc = accountRepository.findById(userId).orElse(null);
         Document doc = documentRepository.findById(documentId).orElse(null);
         if(acc==null||doc==null) return null;
+        if(doc.getAuthor().equals(acc.getName()))return null;
         Permission temp = new Permission();
         temp.setDocid(documentId);
         temp.setUserid(userId);
