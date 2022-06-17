@@ -46,6 +46,7 @@
             <el-button
                 type="primary"
                 color="#3F3F3F"
+                :disabled="scope.row.author!=this.user.name"
                 @click="teamDialogVisible = true;this.showdid=scope.row.id;this.dauthor=scope.row.author;share()"
             ><img src="../img/创作.png" alt=""
             /></el-button>
@@ -63,6 +64,7 @@
           >
             <template #reference>
               <el-button type="primary" color="#3F3F3F"
+                         :disabled="scope.row.author!=this.user.name"
                 ><img src="../img/删除.png" alt=""
               /></el-button>
             </template>
