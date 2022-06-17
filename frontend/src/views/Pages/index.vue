@@ -108,7 +108,6 @@ export default {
             documentId: docId,
             userId: uid,
           },
-          
         })
         .then((res) => {
           if(res.data == 2) {

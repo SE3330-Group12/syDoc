@@ -3,7 +3,6 @@ package com.group12.syDocbackend.websocket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.group12.syDocbackend.entity.DocLog;
 import com.group12.syDocbackend.repository.DocLogRepository;
 import com.group12.syDocbackend.utils.HttpUtils;
@@ -12,11 +11,7 @@ import com.group12.syDocbackend.utils.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
-import org.java_websocket.server.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -94,7 +89,7 @@ public class MyWebsocketServer extends org.java_websocket.server.WebSocketServer
                     return;
                 }
                 String unMessage= PakoGzipUtils.unCompressURI(message);
-                System.out.println(username+" send to doc: "+docId+"message:"+unMessage);
+                System.out.println(username+" send to sheet: "+docId+"message:"+unMessage);
                 JSONObject jsonObject= JSON.parseObject(unMessage);
                 connMap.forEach((socket,n)->{
                     if(conn == socket||!n.equals(docId)) return;
@@ -102,9 +97,11 @@ public class MyWebsocketServer extends org.java_websocket.server.WebSocketServer
                         socket.send(JSON.toJSONString(new ResponseDTO(3, username, username, unMessage)));
                     }else if(!"shs".equals(jsonObject.getString("t"))){
                         socket.send(JSON.toJSONString(new ResponseDTO(2, username, username, unMessage)));
-                        docLogRepository.save(new DocLog(docId, JSON.toJSONString(new ResponseDTO(2, username, username, unMessage))));
                     }
                 });
+                if(!"mv".equals(jsonObject.getString("t"))&&!"shs".equals(jsonObject.getString("t"))){
+                    docLogRepository.save(new DocLog(docId, JSON.toJSONString(new ResponseDTO(2, username, username, unMessage))));
+                }
             }catch (Exception e) {
                 e.printStackTrace();
             }
