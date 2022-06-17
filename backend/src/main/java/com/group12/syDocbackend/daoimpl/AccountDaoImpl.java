@@ -146,12 +146,11 @@ public class AccountDaoImpl implements AccountDao {
                         permissionRepository.delete(temp.get(j));
                     }
                     permissionRepository.flush();
-                    documentRepository.deleteById(docId);
-                    return true;
                 }
             }
         }
-        return false;
+        documentRepository.deleteById(docId);
+        return true;
     }
 
     @Override
