@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id = 'model'>
-    <p>当前模式： {{model}}</p></div>
+    <p>{{docName}} ({{model}})</p></div>
     <QuillEditor
       id="editorId"
       ref="myQuillEditor"
@@ -90,6 +90,7 @@ export default {
       count: 0,
       delta: 0,
       model:"",
+      docName:"",
     });
 
     var username="nzy";
@@ -122,6 +123,7 @@ export default {
 
     const onEditorReady = (e) => {
       console.log("Editor ready.", e);
+      state.docName = docName;
 
       let quill = toRaw(myQuillEditor.value).getQuill();
       let delta = {
