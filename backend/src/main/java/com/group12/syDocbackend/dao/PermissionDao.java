@@ -10,4 +10,5 @@ public interface PermissionDao {
     int getPermission(int docId,int userId);
     boolean modifyPermission(int docId,int userName);
     boolean deletePartner(int documentId, int userId);
+    boolean getPermissionByName(int docId,String userName);
 }

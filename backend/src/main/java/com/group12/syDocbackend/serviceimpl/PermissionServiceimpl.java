@@ -19,4 +19,9 @@ public class PermissionServiceimpl implements PermissionService {
     public boolean deletePartner(int documentId, int userId){
         return permissionDao.deletePartner(documentId, userId);
     }
+
+    @Override
+    public boolean getPermissionByName(int docId,String userName){
+        return permissionDao.getPermissionByName(docId,userName);
+    }
 }

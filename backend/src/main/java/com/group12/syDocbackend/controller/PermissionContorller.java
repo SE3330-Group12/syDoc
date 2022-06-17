@@ -47,4 +47,10 @@ public class PermissionContorller {
         System.out.println("deletePartner--doc: "+docId+" user: "+userId);
         return permissionService.deletePartner(docId,userId);
     }
+
+    @RequestMapping("/getPermissionByName")
+    public boolean getPermissionByName(@RequestParam("docid")int docId,@RequestParam("username") String userName){
+        System.out.println("getPermissionByname--doc: "+docId+" user: "+userName);
+        return permissionService.getPermissionByName(docId,userName);
+    }
 }

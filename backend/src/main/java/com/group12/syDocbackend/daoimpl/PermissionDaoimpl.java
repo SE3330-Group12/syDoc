@@ -69,4 +69,14 @@ public class PermissionDaoimpl implements PermissionDao {
         }
         return false;
     }
+
+    @Override
+    public boolean getPermissionByName(int docId,String userName){
+        List<Account> temp = accountRepository.findAccountsByName(userName);
+        int userId = temp.get(0).getAccountId();
+        int power = getPermission(docId,userId);
+        if(power==1||power==0)return true;
+        else return false;
+
+    }
 }
