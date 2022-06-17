@@ -113,31 +113,27 @@
       <el-menu
           @select="handleSelect"
         active-text-color="#ffffff"
-        background-color="#0d0d0d"
+        background-color="#24354E"
         class="el-menu-vertical-demo"
         :default-active="index"
-        text-color="#383838">
+        text-color="#9A9A9A">
 <!--        @open="handleOpen"-->
 <!--        @close="handleClose"-->
 <!--      >-->
-        <el-sub-menu index="1">
-          <template #title>
-            <el-button size="large" class="bigbutton" @click="centerDialogVisible = true">创建新项目</el-button>
-          </template>
-<!--            <el-menu-item index="1-1"><el-button round size="small">文本</el-button></el-menu-item>-->
-<!--            <el-menu-item index="1-2"><el-button round size="small">表格</el-button></el-menu-item>-->
-        </el-sub-menu>
+        <el-menu-item index="1">
+         <el-button size="large" class="bigbutton" @click="centerDialogVisible = true">创建新项目</el-button>
+        </el-menu-item>
         <el-menu-item index="2">
         <el-button size="large" class="bigbutton" @click="addToDoc= true">加入项目</el-button>
         </el-menu-item>
         <el-menu-item index="3">
-          <span>所有项目</span>
+          <span>所有项目>></span>
         </el-menu-item>
         <el-menu-item index="4">
-          <span>你创建的项目</span>
+          <span>你创建的项目>></span>
         </el-menu-item>
         <el-menu-item index="5">
-          <span>你加入的项目</span>
+          <span>你加入的项目>></span>
         </el-menu-item>
       </el-menu>
     </el-col>
@@ -331,4 +327,5 @@ textarea {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   font-family: "roboto", sans-serif;
 }
+
 </style>

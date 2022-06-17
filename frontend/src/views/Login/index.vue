@@ -1,7 +1,7 @@
 <template>
 <div id="container">
   <div id="header">
-    <Header />
+    <Header style="background-color:#0075C2"/>
   </div>
   <div id="main">
     <Info />
@@ -47,12 +47,11 @@ export default {
 }
 #main {
   position: fixed;
-  top:8.5vh;
   height: 91.5vh;
   width:100%;
   margin: 0;
   background-size: cover;
-  background-image: url("../../img/back.jpg");
+  background-image: url("../../img/newblue.jpg");
   background-repeat: no-repeat;
 }
 .clear{

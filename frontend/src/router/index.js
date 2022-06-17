@@ -64,9 +64,16 @@ const routes = [
             import('../views/ExcelPage'),
     },
     {
+        path: "/Help",
+        name: "Help",
+        component: () =>
+            import ('../views/Help'),
+    },
+    {
         path: '/',
         redirect: '/Login',
-    }
+    },
+    
 
 
 ]

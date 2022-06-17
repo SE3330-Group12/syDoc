@@ -77,6 +77,7 @@ export default {
             },1);
           }
           else {
+            localStorage.setItem('user', JSON.stringify(res.data));
             this.$router.push({
               path:'/Home',
               query: {
@@ -159,7 +160,7 @@ body {
 }
 .bg_intro .intro {
   position: relative;
-  background: #a2a2a298;
+  background: #E2E4E44A;
   border-radius: 20px;
   width: 30%;
   height: 65%;

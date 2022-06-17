@@ -24,7 +24,7 @@ export default {};
 
 .bg_footer p {
   position: relative;
-  top:20px;
+  top:10px;
   font-size: 14px;
   color: rgb(255, 255, 255);
   margin: 0 auto;
