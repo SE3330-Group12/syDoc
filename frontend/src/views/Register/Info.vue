@@ -136,8 +136,8 @@ li {
 }
 .bg_intro .intro{
   position: relative;
-  background: #a2a2a298;
-    border-radius: 20px;
+  background: #E2E4E44A;
+  border-radius: 20px;
   width:40%;
   height: 70%;
   margin:0 auto;

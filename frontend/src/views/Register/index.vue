@@ -1,7 +1,7 @@
 <template>
     <div id="container">
   <div id="header">
-    <Header />
+    <Header  style="background-color:#0075C2"/>
   </div>
   <div id="main">
     <Info />
@@ -49,7 +49,7 @@ import Footer from '../../components/footer.vue';
   width:100%;
   margin: 0;
   background-size: cover;
-  background-image: url("../../img/back.jpg");
+  background-image: url("../../img/newblue.jpg");
   background-repeat: no-repeat;
 }
 </style>
