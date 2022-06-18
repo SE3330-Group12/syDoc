@@ -19,7 +19,8 @@
     "vue": "^3.2.13",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^4.0.3",
-    "vuex": "^4.0.0"
+    "vuex": "^4.0.0",
+    "ant-design-vue":"3.2.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",

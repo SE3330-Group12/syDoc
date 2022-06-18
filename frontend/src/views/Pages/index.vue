@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id = 'model'>
-    <p>{{docName}} （{{model}}）</p></div>
+    <p>{{docName}} ({{model}})</p></div>
     <QuillEditor
       id="editorId"
       ref="myQuillEditor"
@@ -31,6 +31,7 @@ import { pdfExporter } from "quill-to-pdf";
 
 import { reactive, ref, toRefs, toRaw, readOnly } from "vue";
 import { useWebSocket } from "../../hooks";
+import { message } from 'ant-design-vue';
 
 const toolbarOptions = [
   ["bold", "italic", "underline", "strike"], // 加粗，斜体，下划线，删除线
@@ -65,7 +66,8 @@ export default {
           if(!this.isfresh)
           {
             // console.log(this.isfresh);
-            alert("Network connection error!");
+            // alert("Network connection error!");
+            const hide = message.loading('Action in progress..', 0);
             this.isfresh=true;
           }
           console.log(err)
