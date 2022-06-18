@@ -340,7 +340,8 @@ export default {
     deleteDoc(Doc){
       instance.post('/deleteDocument',null,{
         params:{
-          docId:Doc.id
+          docId:Doc.id,
+          userId:this.user.id
         }
       }).then(res=>{
         if(res.data){

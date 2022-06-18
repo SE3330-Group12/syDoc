@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface DocumentService {
     Document addDocument(int userId,String docName,String type);
-    boolean deleteDocument(int docId);
+    boolean deleteDocument(int docId,int userId);
     List<DocumentServiceImpl.Result> getUserPower(int docId);
     List<Map> getDocList(int userId);
     int getPermission(int docId,int userId);

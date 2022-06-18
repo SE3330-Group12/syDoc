@@ -12,6 +12,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Repository;
 import com.group12.syDocbackend.entity.Account;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -130,29 +131,52 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public boolean deleteDocument(int docId){
-        List<Account> toBeDelete= documentRepository.getById(docId).getAccounts();
-        int accountNumber = toBeDelete.size();
-        for(int k=0;k<accountNumber;k++){
-            Account currentAccount = toBeDelete.get(k);
-            List<Document> projects = currentAccount.getProjects();
-            int size = projects.size();
-            for(int i=0;i<size;i++){
-                if(projects.get(i).getDocumentId()==docId){
-                    projects.remove(i);
-                    currentAccount.setProjects(projects);
-                    accountRepository.save(currentAccount);
-                    List<Permission> temp = permissionRepository.findPermissionsByDocid(docId);
-                    int permissionSize = temp.size();
-                    for(int j=0;j<permissionSize;j++){
-                        permissionRepository.delete(temp.get(j));
+    public boolean deleteDocument(int docId,int userId){
+        Document doc = documentRepository.getById(docId);
+        List<Account> toBeDelete= doc.getAccounts();
+        String author = doc.getAuthor();
+        Account deletePerson = accountRepository.getById(userId);
+        if(author.equals(deletePerson.getName())){
+            int accountNumber = toBeDelete.size();
+            for(int k=0;k<accountNumber;k++){
+                Account currentAccount = toBeDelete.get(k);
+                List<Document> projects = currentAccount.getProjects();
+                int size = projects.size();
+                for(int i=0;i<size;i++){
+                    if(projects.get(i).getDocumentId()==docId){
+                        projects.remove(i);
+                        currentAccount.setProjects(projects);
+                        accountRepository.save(currentAccount);
+                        List<Permission> temp = permissionRepository.findPermissionsByDocid(docId);
+                        int permissionSize = temp.size();
+                        for(int j=0;j<permissionSize;j++){
+                            permissionRepository.delete(temp.get(j));
+                        }
+                        permissionRepository.flush();
                     }
-                    permissionRepository.flush();
                 }
             }
+            documentRepository.deleteById(docId);
+            return true;
         }
-        documentRepository.deleteById(docId);
-        return true;
+        else
+        {
+            List<Document> proj = deletePerson.getProjects();
+            int projectSize = proj.size();
+            for(int i=0;i<projectSize;i++){
+                if(proj.get(i).getDocumentId()==docId){
+                    proj.remove(i);
+                    deletePerson.setProjects(proj);
+                    accountRepository.save(deletePerson);
+                    List<Permission> temp = permissionRepository.findPermissionsByDocidAndUserid(docId,userId);
+                    permissionRepository.delete(temp.get(0));
+                    permissionRepository.flush();
+                    return true;
+
+                }
+            }
+            return false;
+        }
     }
 
     @Override

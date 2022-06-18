@@ -16,7 +16,7 @@ public interface AccountDao {
     Document addDocument(int userId,String docName,String type);
     boolean modifyDocName(int docId,String newname);
     List<Map> getDocList(int userId);
-    boolean deleteDocument(int docId);
+    boolean deleteDocument(int docId,int userId);
     String getNameById(int userId);
     Account getAccount(int accountId);
     boolean deletePartner(int docId,int userId);

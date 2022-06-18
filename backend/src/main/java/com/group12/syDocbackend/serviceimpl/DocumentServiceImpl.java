@@ -38,8 +38,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public boolean deleteDocument(int docId){
-        return accountDao.deleteDocument(docId);
+    public boolean deleteDocument(int docId,int userId){
+        return accountDao.deleteDocument(docId,userId);
     }
 
 

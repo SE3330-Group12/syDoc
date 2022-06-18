@@ -67,9 +67,9 @@ public class AccountController {
     }
 
     @RequestMapping("/deleteDocument")
-    public boolean deleteDocument(@RequestParam("docId")int docId){
+    public boolean deleteDocument(@RequestParam("docId")int docId,@RequestParam("userId")int userId){
         System.out.println("deleteDoc: "+docId);
-        documentService.deleteDocument(docId);
+        documentService.deleteDocument(docId,userId);
         return true;
     }
 
