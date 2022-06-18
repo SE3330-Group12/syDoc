@@ -269,6 +269,7 @@ export default {
         }
       }).then(res=>{
         if(res.data!=""){
+          this.code="";
           setTimeout(()=>{
             this.$message({
               message: '加入项目成功',

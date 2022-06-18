@@ -23,7 +23,7 @@
     </el-descriptions>
     <br />
     <router-link to="Login">
-    <el-button round class="bigbutton">退出登录</el-button>
+    <el-button round >退出登录</el-button>
     </router-link>
   </div>
 </template>
